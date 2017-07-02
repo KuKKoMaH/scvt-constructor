@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200px" height="500px" viewBox="0 0 1200 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>mask-3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mask-3" stroke="#979797">
+            <polygon id="Path-6" points="0 -7.10542736e-15 250 -7.10542736e-15 450 500 0 500"></polygon>
+            <polygon id="Path-7" points="300 0 500 500 700 0"></polygon>
+            <polygon id="Path-8" points="550 500 750 0 900 500"></polygon>
+            <polygon id="Path-9" points="1200 500 1200 0 800 0 950 500"></polygon>
+        </g>
+    </g>
+</svg>

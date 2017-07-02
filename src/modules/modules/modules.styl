@@ -1,0 +1,54 @@
+.wrapper
+  margin: 0 2px
+  //border-bottom: 1px solid white
+  //margin: 0 2px 5px
+  //padding-bottom: 5px
+  text-align: center
+  display: none
+
+.text
+  font-size: 16px
+  display: inline-block
+  vertical-align: middle
+
+.input
+  background: #ffffff
+  border: 1px solid #E3E3E3
+  width: 55px
+  height: 24px
+  line-height: 24px
+  border-radius: 4px
+  margin: 0 5px
+  display: inline-block
+  vertical-align: middle
+  position: relative
+
+.count
+  display: block
+  padding-right: 25px
+
+.button
+  position: absolute
+  right: 4px
+  padding: 4px
+  cursor: pointer
+  anim()
+
+  &:active
+    opacity: 0.7
+
+  &:after
+    content: ''
+    display: block
+    border-left: 6px solid transparent
+    border-right: 6px solid transparent
+
+.minus
+  bottom: 0
+  &:after
+    border-top: 5px solid #000
+
+.plus
+  top: 0
+  &:after
+    border-bottom: 5px solid #000

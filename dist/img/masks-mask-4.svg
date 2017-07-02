@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500px" height="1200px" viewBox="0 0 500 1200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>mask-4</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mask-4" stroke="#979797">
+            <polygon id="Path-6" transform="translate(250.000000, 225.000000) rotate(-270.000000) translate(-250.000000, -225.000000) " points="25 -25 275 -25 475 475 25 475"></polygon>
+            <polygon id="Path-7" transform="translate(250.000000, 500.000000) rotate(-270.000000) translate(-250.000000, -500.000000) " points="50 250 250 750 450 250"></polygon>
+            <polygon id="Path-8" transform="translate(250.000000, 725.000000) rotate(-270.000000) translate(-250.000000, -725.000000) " points="75 975 275 475 425 975"></polygon>
+            <polygon id="Path-9" transform="translate(250.000000, 1000.000000) rotate(-270.000000) translate(-250.000000, -1000.000000) " points="450 1250 450 750 50 750 200 1250"></polygon>
+        </g>
+    </g>
+</svg>

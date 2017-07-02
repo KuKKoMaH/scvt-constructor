@@ -1,0 +1,220 @@
+.constructor-wrapper
+  .constructor-header
+    include ../header/header
+  .constructor-sidebar.constructor-left
+    include ../picture/picture
+  .constructor-content
+    include ../canvas/canvas
+  .constructor-sidebar.constructor-right
+    include ../background/background
+  include ../masks/masks
+  include ../mask/mask
+script.
+  var bg = [
+    {
+      title: 'Спальня',
+      items: [
+        {
+          id:    1,
+          thumb: 'https://source.unsplash.com/0h9LsnY13Hs/100x75',
+          full:  'https://source.unsplash.com/0h9LsnY13Hs/1600x950'
+        },
+        {
+          id:    2,
+          thumb: 'https://source.unsplash.com/oTJ92KUXHls/100x75',
+          full:  'https://source.unsplash.com/oTJ92KUXHls/1600x950'
+        },
+        {
+          id:    3,
+          thumb: 'https://source.unsplash.com/2dcYhvbHV-M/100x75',
+          full:  'https://source.unsplash.com/2dcYhvbHV-M/1600x950'
+        },
+        {
+          id:    4,
+          thumb: 'https://source.unsplash.com/0h9LsnY13Hs/100x75',
+          full:  'https://source.unsplash.com/0h9LsnY13Hs/1600x950'
+        },
+        {
+          id:    5,
+          thumb: 'https://source.unsplash.com/oTJ92KUXHls/100x75',
+          full:  'https://source.unsplash.com/oTJ92KUXHls/1600x950'
+        },
+        {
+          id:    6,
+          thumb: 'https://source.unsplash.com/2dcYhvbHV-M/100x75',
+          full:  'https://source.unsplash.com/2dcYhvbHV-M/1600x950'
+        },
+        {
+          id:    7,
+          thumb: 'https://source.unsplash.com/0h9LsnY13Hs/100x75',
+          full:  'https://source.unsplash.com/0h9LsnY13Hs/1600x950'
+        },
+        {
+          id:    8,
+          thumb: 'https://source.unsplash.com/oTJ92KUXHls/100x75',
+          full:  'https://source.unsplash.com/oTJ92KUXHls/1600x950'
+        },
+        {
+          id:    9,
+          thumb: 'https://source.unsplash.com/2dcYhvbHV-M/100x75',
+          full:  'https://source.unsplash.com/2dcYhvbHV-M/1600x950'
+        },
+      ]
+    },
+    {
+      title: 'Детская'
+    },
+    {
+      title: 'Кухня',
+      items: [
+        {
+          id:    10,
+          thumb: 'https://source.unsplash.com/0h9LsnY13Hs/100x75',
+          full:  'https://source.unsplash.com/0h9LsnY13Hs/1600x950'
+        },
+        {
+          id:    11,
+          thumb: 'https://source.unsplash.com/oTJ92KUXHls/100x75',
+          full:  'https://source.unsplash.com/oTJ92KUXHls/1600x950'
+        },
+        {
+          id:    12,
+          thumb: 'https://source.unsplash.com/2dcYhvbHV-M/100x75',
+          full:  'https://source.unsplash.com/2dcYhvbHV-M/1600x950'
+        },
+      ]
+    },
+    {
+      title: 'Прихожая'
+    },
+    {
+      title: 'Гостиная'
+    },
+    {
+      title: 'Офис'
+    },
+    {
+      title: 'Цвета'
+    },
+    {
+      title: 'Фактуры'
+    },
+  ];
+
+  var pictures = [
+    {
+      title:  'Картина',
+      upload: true,
+      items:  [
+        {
+          id:    1,
+          thumb: 'https://source.unsplash.com/PFt8IA323jw/100x75',
+          full:  'https://source.unsplash.com/PFt8IA323jw/1600x950',
+          mask:  'img/masks-mask-5.svg'
+        },
+        {
+          id:    2,
+          thumb: 'https://source.unsplash.com/JjtOgHxiuFA/100x75',
+          full:  'https://source.unsplash.com/JjtOgHxiuFA/1600x950',
+          mask:  'img/masks-mask-6.svg'
+        },
+      ]
+    },
+    {
+      title:   'Модульная',
+      upload:  true,
+      modules: true,
+      items:   [
+        {
+          count: 3,
+          items: [
+            {
+              id:    3,
+              thumb: 'https://source.unsplash.com/PFt8IA323jw/100x75',
+              full:  'https://source.unsplash.com/PFt8IA323jw/1600x950',
+              mask:  'img/masks-mask-1.svg'
+            },
+            {
+              id:    4,
+              thumb: 'https://source.unsplash.com/JjtOgHxiuFA/100x75',
+              full:  'https://source.unsplash.com/JjtOgHxiuFA/1600x950',
+              mask:  'img/masks-mask-2.svg'
+            },
+          ]
+        },
+        {
+          count: 4,
+          items: [
+            {
+              id:    5,
+              thumb: 'https://source.unsplash.com/2APB4zEw1Yg/100x75',
+              full:  'https://source.unsplash.com/2APB4zEw1Yg/1600x950',
+              mask:  'img/masks-mask-3.svg'
+            },
+            {
+              id:    6,
+              thumb: 'https://source.unsplash.com/dDCf0-c4RTU/100x75',
+              full:  'https://source.unsplash.com/dDCf0-c4RTU/1600x950',
+              mask:  'img/masks-mask-4.svg'
+            },
+          ]
+        }
+      ],
+    },
+    {
+      title:   'Фотопанно',
+      modules: true,
+      items:   [
+        {
+          count: 3,
+          items: [
+            {
+              id:    7,
+              thumb: 'https://source.unsplash.com/PFt8IA323jw/100x75',
+              full:  'https://source.unsplash.com/PFt8IA323jw/1600x950',
+            },
+            {
+              id:    8,
+              thumb: 'https://source.unsplash.com/JjtOgHxiuFA/100x75',
+              full:  'https://source.unsplash.com/JjtOgHxiuFA/1600x950',
+            },
+          ]
+        },
+        {
+          count: 4,
+          items: [
+            {
+              id:    9,
+              thumb: 'https://source.unsplash.com/2APB4zEw1Yg/100x75',
+              full:  'https://source.unsplash.com/2APB4zEw1Yg/1600x950',
+            },
+            {
+              id:    10,
+              thumb: 'https://source.unsplash.com/dDCf0-c4RTU/100x75',
+              full:  'https://source.unsplash.com/dDCf0-c4RTU/1600x950',
+            },
+          ]
+        }
+      ],
+    },
+    {
+      title: 'Фотоколлаж',
+      items: [
+        {
+          id:    11,
+          thumb: 'https://source.unsplash.com/PFt8IA323jw/100x75',
+          full:  'https://source.unsplash.com/PFt8IA323jw/1600x950',
+        },
+        {
+          id:    12,
+          thumb: 'https://source.unsplash.com/JjtOgHxiuFA/100x75',
+          full:  'https://source.unsplash.com/JjtOgHxiuFA/1600x950',
+        },
+      ]
+    },
+  ];
+
+  var size = {
+    minWidth: 30,
+    maxWidth: 120,
+  }

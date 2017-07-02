@@ -1,0 +1,83 @@
+.wrapper
+  padding: 0 8px
+  height: 60px
+  line-height: 1
+  display: table
+  width: 100%
+
+  &:before
+    content: ''
+    display: inline-block
+    height: 100%
+    vertical-align: middle
+
+.image-wrapper,
+.logo,
+.menu,
+.contacts
+  vertical-align: middle
+  display: table-cell
+
+.image-wrapper
+  width: 51px
+.logo
+  width: 1px
+.contacts
+  width: 200px
+.logo
+  text-align: center
+
+.image
+  margin-right: 1em
+  
+.title
+  font-size: 24px
+
+.subtitle
+  font-size: 11px
+
+.menu
+  text-align: center
+
+  ul
+    margin: 0
+    padding: 0
+
+  li
+    display: inline-block
+    vertical-align: middle
+    margin: 0 2%
+
+  a
+    display: block
+    font-size: 18px
+    color: #000000
+    text-decoration: none
+    padding-bottom: 3px
+    border-bottom: 2px solid transparent
+    anim()
+
+    &:hover
+      border-bottom: 2px solid #000
+
+
+.contacts
+  text-align: right
+  position: relative
+  padding-right: 30px
+  width: 220px
+
+  &:before
+    content: ''
+    position: absolute
+    right: 0
+    top: 14px
+    background: url(modules/header/sprite-phone.svg)
+
+.phone
+  font-size: 22px
+
+.work
+  font-size: 12px
+  color: #666666
+  margin-top: 3px

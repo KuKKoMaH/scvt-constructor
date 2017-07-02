@@ -1,0 +1,35 @@
+.wrapper
+  position: absolute
+  right: 20px
+  top: 20px
+
+.button
+  background: url(modules/help/sprite-help.svg)
+  line-height: 30px
+  text-align: center
+  color: #ffffff
+  cursor: pointer
+
+.popup
+  display: none
+  position: absolute
+  padding: 1.5em
+  right: 100%
+  margin-right: 25px
+  top: 0
+  background: rgba(#000, .55)
+  color: #ffffff
+  width: 450px
+  z-index: 1
+
+  &:after
+    content: ''
+    position: absolute
+    left: 100%
+    top: 8px
+    border-left: 22px solid rgba(#000, .55)
+    border-top: 7px solid transparent
+    border-bottom: 7px solid transparent
+
+  p
+    margin: 0 0 .5em

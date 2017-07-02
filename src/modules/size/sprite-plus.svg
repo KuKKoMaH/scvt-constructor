@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="26px" viewBox="0 0 24 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>sprite-plus3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="sprite-plus3">
+            <path d="M21.59,16.28 L5.8,25.22 C2.6,27 0,25.57 0,21.94 L0,4.06 C0,0.43 2.6,-1 5.8,0.78 L21.59,9.72 C24.8,11.53 24.8,14.47 21.59,16.28 Z" id="Shape" stroke="#E3E3E3" stroke-width="0.25" fill="#FFFFFF" fill-rule="nonzero"></path>
+            <path d="M6,13 L14,13" id="Shape-2" stroke="#231300"></path>
+            <path d="M10,9 L10,17" id="Shape-3" stroke="#231300"></path>
+        </g>
+    </g>
+</svg>

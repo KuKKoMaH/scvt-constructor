@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>sprite-help</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <radialGradient cx="53.1233333%" cy="49.9226667%" fx="53.1233333%" fy="49.9226667%" r="53.0666667%" id="radialGradient-1">
+            <stop stop-color="#BCD0E4" offset="0%"></stop>
+            <stop stop-color="#B3C8DF" offset="10%"></stop>
+            <stop stop-color="#99B4D0" offset="26%"></stop>
+            <stop stop-color="#7093B9" offset="47%"></stop>
+            <stop stop-color="#376699" offset="71%"></stop>
+            <stop stop-color="#003A7A" offset="91%"></stop>
+            <stop stop-color="#003A7A" offset="99%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.8">
+        <g id="sprite-help" stroke="#898989" fill-rule="nonzero" stroke-width="0.5" fill="url(#radialGradient-1)">
+            <circle id="Oval" cx="15" cy="15" r="15"></circle>
+        </g>
+    </g>
+</svg>

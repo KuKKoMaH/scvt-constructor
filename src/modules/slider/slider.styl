@@ -1,0 +1,81 @@
+@import "baron/baron.css"
+//@import "baron/skins/styles.css"
+
+.wrapper
+  height: 100%
+  display: table-cell
+  position: relative
+
+.container
+  border-radius: 10px
+  background: #E5E5E5
+  border: 1px solid #D9D9D9
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  padding: 10px 0 6px
+
+.content
+  display: block
+  padding: 0 4px
+
+.item
+  height: 110px
+  line-height: 110px
+  font-size: 0
+  background: #D9D9D9
+  border: 1px solid #fff
+  border-radius: 10px
+  margin-bottom: 4px
+  cursor: pointer
+  text-align: center
+  anim()
+
+  &:hover
+    background: #717171
+
+  *
+    vertical-align: middle
+
+  img
+    max-height: 100px
+    max-width: 100px
+
+.active
+    background: #666666
+
+.baron
+  height: 100%
+
+.upload
+  background: #BCBCBC
+  position: relative
+  overflow: hidden
+  input
+    position: absolute
+    right: 0
+    top: 0
+    width: 300%
+    height: 300%
+    opacity: 0
+    cursor: pointer
+
+  &:after
+    content: ''
+    display: inline-block
+    vertical-align: middle
+    background: url(modules/slider/sprite-upload.svg)
+
+:global
+  .baron
+    &__track,
+    &__free,
+    &__bar
+      right: auto
+      //left: -4px
+      left: 0
+    &__bar
+      width: 2px
+      background: #000

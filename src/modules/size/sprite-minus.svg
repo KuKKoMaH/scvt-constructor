@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="26px" viewBox="0 0 24 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>sprite-minus</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="sprite-minus">
+            <path d="M2.4,9.66455323 L18.2,0.779387812 C21.4,-1.01761194 24,0.380054535 24,4.07388735 L24,21.9440515 C24,25.538051 21.4,27.0355508 18.2,25.2385511 L2.4,16.2535523 C-0.8,14.4565526 -0.8,11.461553 2.4,9.66455323 Z" id="Shape" stroke="#E3E3E3" stroke-width="0.25" fill="#FFFFFF" fill-rule="nonzero"></path>
+            <path d="M18,13 L9,13" id="Shape_1_" stroke="#231300"></path>
+        </g>
+    </g>
+</svg>
