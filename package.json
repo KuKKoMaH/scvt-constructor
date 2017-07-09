@@ -53,6 +53,8 @@
     "jquery.maskedinput": "^1.4.1",
     "magnific-popup": "^1.1.0",
     "photoswipe": "^4.1.1",
+    "pixi-filters": "^1.0.6",
+    "pixi.js": "^4.5.3",
     "slick-carousel": "^1.6.0",
     "vanilla-lazyload": "^2.1.0"
   }
