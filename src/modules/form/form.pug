@@ -1,0 +1,18 @@
+.form-wrapper
+  .form-button Продолжить
+  .form-popup
+    .form-close
+    form.form-form
+      .form-row
+        .form-input-wrapper: input.form-input(placeholder='Имя')
+        .form-input-wrapper: input.form-input(placeholder='Телефон')
+        .form-input-wrapper: input.form-input(placeholder='Почта')
+      .form-row
+        .form-input-wrapper-textarea: textarea.form-input.form-textarea(placeholder='Сообщение')
+      .form-row
+        .form-files-wrapper
+          .form-files
+            span.form-span Прикрепить файл
+            input(type='file' multiple)
+        .form-input-wrapper
+          input.form-submit(type='submit' value='Отправить')
