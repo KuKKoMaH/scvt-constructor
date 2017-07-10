@@ -1,5 +1,5 @@
 const re = /([^&=]+)=([^&]*)/g;
-
+//asdf
 export const setParam = ( name, value ) => {
   const queryParameters = {};
   const queryString = location.search.substring(1);
