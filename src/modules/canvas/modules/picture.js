@@ -3,29 +3,25 @@ import sortChildren from './sortChildren';
 import { onChangeScale } from './background';
 import pictureMove, { onMove } from './pictureMove';
 import drawMask from './mask';
-import drawBorder, { positionateBorder, onResize } from './pictureResize';
+import Border from './pictureBorder';
 
-const PIXELS_IN_CENTIMETRE = 3.5;
-let pictureWidth = 70;
-let pictureX = 0;
-let pictureY = 0;
+const PIXELS_IN_CENTIMETRE = window.PIXELS_IN_CENTIMETRE || 3.5; // кол-во пикселей в 1 см при масштабе 1
+const MINIMAL_WIDTH = 5;
+let pixelsInCentimetre = null; // кол-во пикселей в 1 см при текущем масштабе
+let pictureSize = window.PICTURE_SIZE || 70; // размер картины в см
+let pictureX = window.PICTURE_X || 0; // смещение относильно центра в см
+let pictureY = window.PICTURE_Y || 0;
+let ratio = 1;
 
 let picture = null;
 let mask = null;
-let border = drawBorder();
+let border = new Border();
 
 let maskScale = 1;
 let pictureScale = 1;
-let pixelsInCentimetre = null;
 
-export default (app) => {
-  app.stage.addChild(border);
-
-  onResize(() => {
-    
-  });
-
-  $('body').on('picture:change', (e, item) => {
+export default ( app ) => {
+  $('body').on('picture:change', ( e, item ) => {
     console.log(item);
     if (!item) return;
     if (picture) app.stage.removeChild(picture);
@@ -59,17 +55,45 @@ export default (app) => {
     sortChildren(app);
   });
 
-  onChangeScale((scale) => {
+  onChangeScale(( scale ) => {
     pixelsInCentimetre = getPixelsInCentimetre(scale);
   });
 
-  onMove((offsetX, offsetY) => {
+  const onResize = [
+    null,
+    ( offsetInSm ) => { // Верхняя
+      pictureSize -= offsetInSm;
+      pictureY = pictureY - offsetInSm / 2;
+    },
+    ( offsetInSm ) => { // Правая
+      pictureSize += offsetInSm * ratio;
+      pictureX = pictureX - offsetInSm / 2;
+    },
+    ( offsetInSm ) => { // Нижняя
+      pictureSize += offsetInSm;
+      pictureY = pictureY - offsetInSm / 2;
+    },
+    ( offsetInSm ) => { // Левая
+      pictureSize -= offsetInSm * ratio;
+      pictureX = pictureX - offsetInSm / 2;
+    },
+  ];
+  border.onResize(( side, offset ) => {
+    onResize[side](offset / pixelsInCentimetre);
+    if (pictureSize < MINIMAL_WIDTH) pictureSize = MINIMAL_WIDTH;
+    positionate();
+  });
+
+  onMove(( offsetX, offsetY ) => {
     const x = picture.x - offsetX;
     const y = picture.y - offsetY;
     pictureX = (app.renderer.width / 2 - x) / pixelsInCentimetre;
     pictureY = (app.renderer.height / 2 - y) / pixelsInCentimetre;
+    positionate(); // при драге мышкой без этого картина драгается с замедлением
   });
 
+  app.stage.addChild(border.getContainer());
+  sortChildren(app);
   app.ticker.add(positionate);
 
   function positionate() {
@@ -77,8 +101,9 @@ export default (app) => {
 
     const pic = mask || picture;
     let picScale = pic === mask ? maskScale : pictureScale;
+    ratio = pic.height / pic.width;
 
-    picScale = pictureWidth * pixelsInCentimetre / pic.width * picScale;
+    picScale = pictureSize * pixelsInCentimetre / pic.height * picScale;
     pic.scale = new PIXI.Point(picScale, picScale);
 
     if (pic === mask) {
@@ -91,8 +116,16 @@ export default (app) => {
       pictureScale = picScale;
     }
 
-    const x = app.renderer.width / 2 - (pictureX * pixelsInCentimetre);
-    const y = app.renderer.height / 2 - (pictureY * pixelsInCentimetre);
+    let x = app.renderer.width / 2 - (pictureX * pixelsInCentimetre);
+    let y = app.renderer.height / 2 - (pictureY * pixelsInCentimetre);
+
+    const halfWidth = pic.width / 2;
+    const halfHeight = pic.height / 2;
+    if (x - halfWidth < 0) x = halfWidth;
+    if (x + halfWidth > app.renderer.width) x = app.renderer.width - halfWidth;
+    if (y - halfHeight < 0) y = halfHeight;
+    if (y + halfHeight > app.renderer.height) y = app.renderer.height - halfHeight;
+
     picture.x = x;
     picture.y = y;
     if (mask) {
@@ -100,8 +133,8 @@ export default (app) => {
       mask.y = y;
     }
 
-    positionateBorder(border, pic);
+    border.positionate(pic);
   }
 }
 
-export const getPixelsInCentimetre = (scale) => scale * PIXELS_IN_CENTIMETRE;
+export const getPixelsInCentimetre = ( scale ) => scale * PIXELS_IN_CENTIMETRE;

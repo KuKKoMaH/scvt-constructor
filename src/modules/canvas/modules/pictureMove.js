@@ -1,7 +1,7 @@
 let lastPosition = null;
 const listeners = [];
 
-export default (app, picture) => {
+export default ( app, picture ) => {
   lastPosition = [app.renderer.width / 2, app.renderer.height / 2];
 
   picture
@@ -27,12 +27,12 @@ export default (app, picture) => {
   }
 
   function onDragMove( event ) {
-    // console.log(event.data);
     if (this.dragging) {
       const x = event.data.global.x;
       const y = event.data.global.y;
       const offsetX = lastPosition[0] - x;
       const offsetY = lastPosition[1] - y;
+      if (!offsetX && !offsetY) return;
       lastPosition = [x, y];
       listeners.forEach(cb => cb(offsetX, offsetY));
     }

@@ -10,7 +10,7 @@ export default (app, url, cb ) => {
     mask.lineStyle(0);
 
     $polygons.each(( i, polygon ) => {
-      const dots = polygon.getAttribute('points').split(' ');
+      const dots = polygon.getAttribute('points').split(/[ ,]/).filter(i => i);
       mask.beginFill(0x8bc5ff, 0.4);
       mask.moveTo(+dots[0], +dots[1]);
       for(let i = 2; i < dots.length; i += 2) {

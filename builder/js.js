@@ -58,7 +58,7 @@ module.exports = function ( entries, globals ) {
     webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings:     false,
-        drop_console: true
+        drop_console: false
       }
     }));
   }

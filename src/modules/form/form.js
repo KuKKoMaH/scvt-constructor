@@ -1,4 +1,5 @@
-// import svgToImage from '../../js/svgToImage';
+import getApp from '../canvas/modules/app';
+
 const $popup = $('.' + form_popup);
 const $files = $('.' + form_files);
 const $input = $files.find('input');
@@ -29,15 +30,13 @@ $(() => setTimeout(() => {
   if (!wpcf7) return;
   const origSubmit = wpcf7.submit;
   wpcf7.submit = ( form ) => {
-    const $svg = $('.' + canvas_svg + ' svg');
-    const $bg = $('.' + canvas_wrapper);
-    svgToImage($bg, $svg, ( composition, picture ) => {
-      $("#form-composition").val(composition);
+    const app = getApp();
+    const data = app.renderer.view.toDataURL();
+    $("#form-composition").val(data);
 
-      if (currentImage.indexOf('data:') === 0) {
-        $("#form-picture").val(currentImage);
-      }
-      origSubmit(form);
-    });
+    if (currentImage.indexOf('data:') === 0) {
+      $("#form-picture").val(currentImage);
+    }
+    origSubmit(form);
   }
 }, 0));

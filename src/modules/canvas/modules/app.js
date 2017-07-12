@@ -5,7 +5,7 @@ import picture from './picture';
 
 const $wrapper = $('.' + canvas_wrapper);
 
-const app = new PIXI.Application({preserveDrawingBuffer: true});
+const app = new PIXI.Application({preserveDrawingBuffer: true, backgroundColor : 0xffffff});
 $wrapper.append(app.view);
 background(app);
 picture(app);

@@ -91,7 +91,7 @@ function selectItem( item, silent = false ) {
   item.$item.addClass(slider_active);
   currentItem = item;
   if (silent) return;
-  const newImage = (currentImage && item.item.mask)
+  const newImage = (currentImage && item.item.mask && currentCategory.item.upload)
     ? {
       ...item.item,
       full: currentImage
