@@ -2,7 +2,7 @@ const BORDER_OFFSET = 6;
 const BORDER_WIDTH = 8;
 const BORDER_OPACITY = .1;
 
-export default class Border {
+export default class PictureBorder {
   constructor() {
     this.lastPosition = null;
     this.listeners = [];
@@ -11,10 +11,10 @@ export default class Border {
     this.container.zIndex = 102;
     this.container.alpha = BORDER_OPACITY;
 
-    this.borders = [1, 2, 3, 4].map(i => this.createBorder(i));
+    this.borders = [1, 2, 3, 4].map(i => this._createBorder(i));
   }
 
-  createBorder( i ) {
+  _createBorder(i) {
     const that = this;
     const border = new PIXI.Graphics();
     border.interactive = true;
@@ -30,22 +30,22 @@ export default class Border {
         if (this.dragging) return;
         that.container.alpha = BORDER_OPACITY;
       })
-      .on('pointerdown', function ( event ) {
+      .on('pointerdown', function (event) {
         this.data = event.data;
         this.dragging = true;
         this.lastPosition = [event.data.global.x, event.data.global.y];
       })
       .on('pointerup', function () {
-        if(!this.over) that.container.alpha = BORDER_OPACITY;
+        if (!this.over) that.container.alpha = BORDER_OPACITY;
         this.dragging = false;
         this.data = null;
       })
       .on('pointerupoutside', function () {
-        if(!this.over) that.container.alpha = BORDER_OPACITY;
+        if (!this.over) that.container.alpha = BORDER_OPACITY;
         this.dragging = false;
         this.data = null;
       })
-      .on('pointermove', function ( event ) {
+      .on('pointermove', function (event) {
         if (this.dragging) {
           const x = event.data.global.x;
           const y = event.data.global.y;
@@ -62,15 +62,7 @@ export default class Border {
     return border;
   }
 
-  getContainer() {
-    return this.container;
-  }
-
-  onResize( cb ) {
-    this.listeners.push(cb);
-  }
-
-  drawLine( border, isVertical, x0, y0, x1, y1 ) {
+  _drawLine(border, isVertical, x0, y0, x1, y1) {
     border.clear();
     border.beginFill(0, 0);
     border.drawRect(
@@ -101,14 +93,22 @@ export default class Border {
     }
   }
 
-  positionate( picture ) {
+  getContainer() {
+    return this.container;
+  }
+
+  onResize(cb) {
+    this.listeners.push(cb);
+  }
+
+  positionate(picture) {
     const { x, y, width, height } = picture;
 
     const halfWidth = width / 2;
     const halfHeight = height / 2;
 
     // Верхняя граница
-    this.drawLine(this.borders[0], false,
+    this._drawLine(this.borders[0], false,
       x - halfWidth - BORDER_OFFSET,
       y - halfHeight - BORDER_OFFSET,
       x + halfWidth + BORDER_OFFSET,
@@ -116,7 +116,7 @@ export default class Border {
     );
 
     // Правая
-    this.drawLine(this.borders[1], true,
+    this._drawLine(this.borders[1], true,
       x + halfWidth + BORDER_OFFSET,
       y - halfHeight - BORDER_OFFSET,
       x + halfWidth + BORDER_OFFSET,
@@ -124,7 +124,7 @@ export default class Border {
     );
 
     // Нижняя
-    this.drawLine(this.borders[2], false,
+    this._drawLine(this.borders[2], false,
       x - halfWidth - BORDER_OFFSET,
       y + halfHeight + BORDER_OFFSET,
       x + halfWidth + BORDER_OFFSET,
@@ -132,7 +132,7 @@ export default class Border {
     );
 
     // Левая
-    this.drawLine(this.borders[3], true,
+    this._drawLine(this.borders[3], true,
       x - halfWidth - BORDER_OFFSET,
       y - halfHeight - BORDER_OFFSET,
       x - halfWidth - BORDER_OFFSET,

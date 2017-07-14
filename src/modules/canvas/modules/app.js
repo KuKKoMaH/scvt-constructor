@@ -1,16 +1,21 @@
 import 'pixi.js';
-import onResize from './onResize';
-import background from './background';
-import picture from './picture';
+import './background';
+import onWindowResize from './onWindowResize';
+import Picture from './Picture';
 
 const $wrapper = $('.' + canvas_wrapper);
 
-const app = new PIXI.Application({preserveDrawingBuffer: true, backgroundColor : 0xffffff});
+const app = new PIXI.Application({ preserveDrawingBuffer: true, transparent: true });
 $wrapper.append(app.view);
-background(app);
-picture(app);
+onWindowResize((width, height) => app.renderer.resize(width, height));
 window.app = app;
 
-onResize(( width, height ) => app.renderer.resize(width, height));
+const picture = new Picture(app);
+
+$('body').on('picture:change', (e, item) => {
+  console.log(item);
+  if (!item) return;
+  picture.setPicture(item);
+});
 
 export default () => app;

@@ -1,55 +1,33 @@
-import onResize, { getSize } from './onResize';
-import sortChildren from './sortChildren';
+import loadImage from '../../../js/loadImage';
+import transitionend from '../../../js/transitionend';
 
 let bg = null;
-let scale = 1;
-const listeners = [];
-// const bgGroup = new PIXI.display.Group(0, true)
+const transparentPixel = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+let isFirstBg = true;
 
-export default ( app ) => {
-  $('body').on('background:change', ( e, item ) => {
-    if (!item) return;
-    if (bg) app.stage.removeChild(bg);
+const $bg1 = $('.' + canvas_bg1);
+const $bg2 = $('.' + canvas_bg2);
 
-    bg = new PIXI.Sprite.fromImage(item.item.full);
-    bg.zIndex = 1;
-    app.stage.addChild(bg);
-    sortChildren(app);
+const setBg = ($el, src) => $el.css('background-image', 'url(' + src + ')');
+
+setBg($bg1, transparentPixel);
+setBg($bg2, transparentPixel);
+
+$('body').on('background:change', (e, item) => {
+  if (!item) return;
+  if (item.item === bg) return;
+
+  loadImage(item.item.full, (image) => {
+    const $nextBg = isFirstBg ? $bg2 : $bg1;
+    const $currentBg = isFirstBg ? $bg1 : $bg2;
+    setBg($nextBg, image.src);
+    $nextBg.addClass(canvas_bg_active);
+
+    if ($currentBg.hasClass(canvas_bg_active))
+      $currentBg.one(transitionend, () => setBg($currentBg, transparentPixel));
+    $currentBg.removeClass(canvas_bg_active);
+
+    isFirstBg = !isFirstBg;
+    bg = image;
   });
-
-  app.ticker.add(positionate);
-
-  function positionate() {
-    if (!bg) return;
-
-    const cWidth = app.renderer.width;
-    const cHeight = app.renderer.height;
-    const bgWidth = bg.width / scale;
-    const bgHeight = bg.height / scale;
-
-    const winratio = cWidth / cHeight;
-    const spratio = bgWidth / bgHeight;
-    const pos = new PIXI.Point(0, 0);
-    let newScale;
-
-    if (winratio > spratio) {
-      //photo is wider than background
-      newScale = cWidth / bgWidth;
-      pos.y = -((bgHeight * newScale) - cHeight) / 2;
-    } else {
-      //photo is taller than background
-      newScale = cHeight / bgHeight;
-      pos.x = -((bgWidth * newScale) - cWidth) / 2;
-    }
-    bg.scale = new PIXI.Point(newScale, newScale);
-    bg.position = pos;
-
-    if (scale !== newScale) {
-      scale = newScale;
-      listeners.forEach(cb => cb(scale));
-    }
-  }
-}
-
-export const getScale = () => scale;
-export const onChangeScale = cb => listeners.push(cb);
+});

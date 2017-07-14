@@ -1,5 +1,4 @@
-export default (app, url, cb ) => {
-  const img = new Image();
+export default (url, cb ) => {
   const mask = new PIXI.Graphics();
   $.get(url, ( content ) => {
     const $content = $(content);
@@ -20,10 +19,7 @@ export default (app, url, cb ) => {
     });
     mask.pivot.x = viewport[2] / 2;
     mask.pivot.y = viewport[3] / 2;
-    // mask.width = +viewport[2];
-    // mask.height = +viewport[3];
 
     cb(mask);
   });
-  img.src = url;
 }
