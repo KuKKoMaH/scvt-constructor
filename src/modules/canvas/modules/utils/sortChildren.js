@@ -1,5 +1,5 @@
-export default ( app ) => {
-  app.stage.children.sort(function ( a, b ) {
+export default ( stage ) => {
+  stage.children.sort(function ( a, b ) {
     const zA = a.zIndex || 0;
     const zB = b.zIndex || 0;
     if (zA === zB) return 0;

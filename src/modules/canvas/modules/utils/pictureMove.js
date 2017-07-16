@@ -1,8 +1,5 @@
-let lastPosition = null;
-const listeners = [];
-
-export default ( app, picture ) => {
-  lastPosition = [app.renderer.width / 2, app.renderer.height / 2];
+export default ( picture, cb ) => {
+  let lastPosition = null;
 
   picture
     .on('pointerdown', onDragStart)
@@ -34,9 +31,7 @@ export default ( app, picture ) => {
       const offsetY = lastPosition[1] - y;
       if (!offsetX && !offsetY) return;
       lastPosition = [x, y];
-      listeners.forEach(cb => cb(offsetX, offsetY));
+      cb(offsetX, offsetY);
     }
   }
 }
-
-export const onMove = cb => listeners.push(cb);

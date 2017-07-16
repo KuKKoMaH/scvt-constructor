@@ -1,154 +1,196 @@
+import Promise from 'bluebird';
 import './DropShadowFilter';
-import sortChildren from './sortChildren';
-import pictureMove, { onMove } from './pictureMove';
-import loadMask from './loadMask';
+import sortChildren from './utils/sortChildren';
+import onMove from './utils/pictureMove';
+import loadMask from './utils/loadMask';
+import loadImage from './utils/loadImage';
 import PictureBorder from './PictureBorder';
-
-const PIXELS_IN_CENTIMETRE = window.PIXELS_IN_CENTIMETRE || 3.5; // кол-во пикселей в 1 см при масштабе 1
-const MINIMAL_WIDTH = 5;
-let pixelsInCentimetre = null; // кол-во пикселей в 1 см при текущем масштабе
-let pictureSize = window.PICTURE_SIZE || 70; // размер картины в см
-let pictureX = window.PICTURE_X || 0; // смещение относильно центра в см
-let pictureY = window.PICTURE_Y || 0;
-let ratio = 1;
-
-let picture = null;
-let mask = null;
-
-let maskScale = 1;
-let pictureScale = 1;
+import config from './config';
 
 export default class Picture {
-  constructor(app) {
+  constructor( { app, pictureX, pictureY, pictureSize, } ) {
     this.app = app;
+    this.pictureX = pictureX || 0;
+    this.pictureY = pictureY || 0;
+    this.pictureSize = pictureSize || 70;
+
+    this.scale = null;
+    this.ratio = null;
+    this.pixelsInCentimetre = null;
+
+    this.container = new PIXI.Container();
+    this.shadowFilter = new PIXI.filters.DropShadowFilter(45, 5, 10, 0x000, .3);
     this.picture = null;
     this.mask = null;
 
     this.border = this.createBorder();
     this.drawChildren(this.border.getContainer());
-
-    // onChangeScale(( scale ) => {
-    //   pixelsInCentimetre = getPixelsInCentimetre(scale);
-    // });
-
-    // onMove((offsetX, offsetY) => {
-    //   const x = picture.x - offsetX;
-    //   const y = picture.y - offsetY;
-    //   pictureX = (app.renderer.width / 2 - x) / pixelsInCentimetre;
-    //   pictureY = (app.renderer.height / 2 - y) / pixelsInCentimetre;
-    //   positionate(); // при драге мышкой без этого картина драгается с замедлением
-    // });
-
-    // app.ticker.add(positionate);
-
-    // function positionate() {
-    //   if (!picture) return;
-    //
-    //   const pic = mask || picture;
-    //   let picScale = pic === mask ? maskScale : pictureScale;
-    //   ratio = pic.height / pic.width;
-    //
-    //   picScale = pictureSize * pixelsInCentimetre / pic.height * picScale;
-    //   pic.scale = new PIXI.Point(picScale, picScale);
-    //
-    //   if (pic === mask) {
-    //     maskScale = picScale;
-    //     pictureScale = mask.width <= mask.height
-    //       ? mask.height / picture.height * pictureScale
-    //       : mask.width / picture.width * pictureScale;
-    //     picture.scale = new PIXI.Point(pictureScale, pictureScale);
-    //   } else {
-    //     pictureScale = picScale;
-    //   }
-    //
-    //   let x = app.renderer.width / 2 - (pictureX * pixelsInCentimetre);
-    //   let y = app.renderer.height / 2 - (pictureY * pixelsInCentimetre);
-    //
-    //   const halfWidth = pic.width / 2;
-    //   const halfHeight = pic.height / 2;
-    //   if (x - halfWidth < 0) x = halfWidth;
-    //   if (x + halfWidth > app.renderer.width) x = app.renderer.width - halfWidth;
-    //   if (y - halfHeight < 0) y = halfHeight;
-    //   if (y + halfHeight > app.renderer.height) y = app.renderer.height - halfHeight;
-    //
-    //   picture.x = x;
-    //   picture.y = y;
-    //   if (mask) {
-    //     mask.x = x;
-    //     mask.y = y;
-    //   }
-    //
-    //   border.positionate(pic);
-    // }
   }
 
-  setPicture(item) {
-    const stage = this.app.stage;
-    if (this.picture) stage.removeChild(this.picture);
-    if (this.mask) stage.removeChild(this.mask);
+  _createPicture( url ) {
+    if (!url) return null;
+    return loadImage(url).then(( texture ) => {
+      const picture = PIXI.Sprite.from(texture);
+      picture.anchor.set(0.5);
+      picture.filters = [this.shadowFilter];
+      picture.zIndex = 100;
+      picture.interactive = true;
+      picture.buttonMode = true;
 
-    const picture = PIXI.Sprite.fromImage(item.full);
-    picture.anchor.set(0.5);
+      onMove(picture, this.onMove.bind(this));
 
-    if (item.mask) {
-      loadMask(item.mask, newMask => {
-        const mask = newMask;
-        mask.zIndex = 101;
-        mask.x = app.renderer.width / 2;
-        mask.y = app.renderer.height / 2;
+      return picture;
+    });
+  }
+
+  _createMask( url ) {
+    if (!url) return null;
+    return loadMask(url).then(( mask ) => {
+      mask.zIndex = 101;
+      return mask;
+    })
+  }
+
+  _bindMaskUpload( mask ) {
+    mask.interactive = true;
+    mask.buttonMode = true;
+    mask.on('pointertap', () => $('.' + slider_upload + ' input[type="file"]').click());
+  }
+
+  setScale( scale ) {
+    this.scale = scale;
+    this.pixelsInCentimetre = scale * config.PIXELS_IN_CENTIMETRE;
+    this.positionate();
+  }
+
+  setPicture( item ) {
+    const container = this.container;
+
+    Promise.all([
+      this._createPicture(item.full),
+      this._createMask(item.mask),
+    ]).then(( [picture, mask] ) => {
+      if (this.picture) {
+        container.removeChild(this.picture);
+        this.picture.destroy();
+      }
+      if (this.mask) {
+        container.removeChild(this.mask);
+        this.mask.destroy();
+      }
+
+      this.picture = picture;
+      if (picture) this.drawChildren(picture);
+
+      if (mask) {
         this.drawChildren(mask);
-        // picture.mask = mask;
-        // this.mask = mask;
-      });
+        if (picture) {
+          picture.mask = mask;
+        } else {
+          this._bindMaskUpload(mask);
+        }
+        this.mask = mask;
+        this.ratio = mask.width / mask.height;
+      } else {
+        this.mask = null;
+        this.ratio = picture.width / picture.height;
+      }
+
+      this.positionate();
+    });
+  }
+
+  onMove( offsetX, offsetY ) {
+    const x = this.picture.x - offsetX;
+    const y = this.picture.y - offsetY;
+    this.pictureX = (this.app.renderer.width / 2 - x) / this.pixelsInCentimetre;
+    this.pictureY = (this.app.renderer.height / 2 - y) / this.pixelsInCentimetre;
+    this.positionate();
+  };
+
+  /**
+   *
+   * @param {[1,2,3,4]} side - сторона смещения: [верх, право, низ, лево]
+   * @param {number} offset - дистанция с мещения в пх
+   */
+  onResize( side, offset ) {
+    const { pixelsInCentimetre, pictureX, pictureY, pictureSize } = this;
+    const onResize = [
+      null,
+      ( offsetInSm ) => { // Верхняя
+        this.pictureSize -= offsetInSm;
+        this.pictureY = pictureY - offsetInSm / 2;
+      },
+      ( offsetInSm ) => { // Правая
+        this.pictureSize += offsetInSm / this.ratio;
+        this.pictureX = pictureX - offsetInSm / 2;
+      },
+      ( offsetInSm ) => { // Нижняя
+        this.pictureSize += offsetInSm;
+        this.pictureY = pictureY - offsetInSm / 2;
+      },
+      ( offsetInSm ) => { // Левая
+        this.pictureSize -= offsetInSm / this.ratio;
+        this.pictureX = pictureX - offsetInSm / 2;
+      },
+    ];
+    onResize[side](offset / pixelsInCentimetre);
+    if (pictureSize < config.MINIMAL_SIZE) this.pictureSize = config.MINIMAL_SIZE;
+    this.positionate();
+  }
+
+  positionate() {
+    const { app, picture, mask, border, pixelsInCentimetre, pictureX, pictureY, pictureSize } = this;
+    if (!pixelsInCentimetre) return;
+    if (!picture && !mask) return;
+
+    if (mask) {
+      const maskScale = pictureSize * pixelsInCentimetre / mask.height * mask.scale.y;
+      mask.scale = new PIXI.Point(maskScale, maskScale);
+
+      if (picture) {
+        const pictureScale = mask.width <= mask.height
+          ? mask.height / picture.height * picture.scale.y
+          : mask.width / picture.width * picture.scale.y;
+        picture.scale = new PIXI.Point(pictureScale, pictureScale);
+      }
     } else {
-      this.mask = null;
+      const pictureScale = pictureSize * pixelsInCentimetre / picture.height * picture.scale.y;
+      picture.scale = new PIXI.Point(pictureScale, pictureScale);
     }
 
-    const filter = new PIXI.filters.DropShadowFilter(45, 5, 10, 0x000, .3);
-    picture.filters = [filter];
-    picture.zIndex = 100;
+    const pic = mask || picture;
+    let x = app.renderer.width / 2 - (pictureX * pixelsInCentimetre);
+    let y = app.renderer.height / 2 - (pictureY * pixelsInCentimetre);
 
-    // pictureMove(app, picture);
+    // При выходе за границы экрана возвращать в область видимости
+    const halfWidth = pic.width / 2;
+    const halfHeight = pic.height / 2;
+    if (x - halfWidth < 0) x = halfWidth;
+    if (x + halfWidth > app.renderer.width) x = app.renderer.width - halfWidth;
+    if (y - halfHeight < 0) y = halfHeight;
+    if (y + halfHeight > app.renderer.height) y = app.renderer.height - halfHeight;
 
-    this.drawChildren(picture);
-    this.picture = picture;
-
+    if (picture) {
+      picture.x = x;
+      picture.y = y;
+    }
+    if (mask) {
+      mask.x = x;
+      mask.y = y;
+    }
+    border.positionate(pic);
   }
 
   createBorder() {
     const border = new PictureBorder();
-    const onResize = [
-      null,
-      (offsetInSm) => { // Верхняя
-        pictureSize -= offsetInSm;
-        pictureY = pictureY - offsetInSm / 2;
-      },
-      (offsetInSm) => { // Правая
-        pictureSize += offsetInSm * ratio;
-        pictureX = pictureX - offsetInSm / 2;
-      },
-      (offsetInSm) => { // Нижняя
-        pictureSize += offsetInSm;
-        pictureY = pictureY - offsetInSm / 2;
-      },
-      (offsetInSm) => { // Левая
-        pictureSize -= offsetInSm * ratio;
-        pictureX = pictureX - offsetInSm / 2;
-      },
-    ];
-    border.onResize((side, offset) => {
-      onResize[side](offset / pixelsInCentimetre);
-      if (pictureSize < MINIMAL_WIDTH) pictureSize = MINIMAL_WIDTH;
-      positionate();
-    });
+    border.onResize(this.onResize.bind(this));
     return border;
   }
 
-  drawChildren(children) {
-    const app = this.app;
-    app.stage.addChild(children);
-    sortChildren(app);
+  drawChildren( children ) {
+    const container = this.container;
+    container.addChild(children);
+    sortChildren(container);
   }
 }
-
-export const getPixelsInCentimetre = (scale) => scale * PIXELS_IN_CENTIMETRE;

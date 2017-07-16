@@ -1,4 +1,4 @@
-import getApp from '../canvas/modules/app';
+import app from '../canvas/canvas';
 
 const $popup = $('.' + form_popup);
 const $files = $('.' + form_files);
@@ -25,13 +25,22 @@ $('body')
     currentImage = item.full;
   });
 
+if(!isProduction) {
+  $('.' + form_form).on('submit', (e) => {
+    e.preventDefault();
+    const data = app.takeScreenshot();
+    const img = new Image();
+    img.src = data;
+    $('body').append(img);
+  });
+}
+
 $(() => setTimeout(() => {
   const wpcf7 = window.wpcf7;
   if (!wpcf7) return;
   const origSubmit = wpcf7.submit;
   wpcf7.submit = ( form ) => {
-    const app = getApp();
-    const data = app.renderer.view.toDataURL();
+    const data = app.app.renderer.view.toDataURL();
     $("#form-composition").val(data);
 
     if (currentImage.indexOf('data:') === 0) {
