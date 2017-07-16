@@ -11,6 +11,7 @@ const utils = require('./utils');
  */
 module.exports = function ( entries, globals ) {
   const webpackConfig = {
+    devtool: process.env.NODE_ENV === 'production' ? false : 'source-map',
     entry:   entries,
     output:  {
       path:     config.jsPath,
@@ -41,7 +42,10 @@ module.exports = function ( entries, globals ) {
       ]
     },
     plugins: [
-      new webpack.DefinePlugin(utils.convertStyles(globals.styles)),
+      new webpack.DefinePlugin(Object.assign(
+        { isProduction: process.env.NODE_ENV === 'production' },
+        utils.convertStyles(globals.styles)
+      )),
       new webpack.optimize.CommonsChunkPlugin({
         name:      'vendors',
         minChunks: 2

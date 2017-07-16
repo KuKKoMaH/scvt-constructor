@@ -1,0 +1,135 @@
+.button
+  position: absolute
+  right: 10px
+  bottom: 40px
+  background: url(modules/form/sprite-button.svg)
+  text-align: center
+  color: #fff
+  line-height: 35px
+  cursor: pointer
+  z-index: 2
+  anim()
+
+  &:hover
+    opacity: .8
+
+  &:active
+    opacity: 1
+
+.form
+  display: block
+
+.popup
+  position: absolute
+  bottom: 10px
+  width: 400px
+  left: 50%
+  margin-left: -200px
+  background: rgba(#000, .5)
+  border-radius: 10px
+  padding: 14px 12px 0
+  display: none
+  z-index: 100
+
+  :global
+    .screen-reader-response
+      display: none
+    .wpcf7-response-output
+      text-align: center
+      color: #ffffff
+    .wpcf7-not-valid-tip
+      display: block
+      font-size: 10px
+      line-height: 10px
+      margin-top: 2px
+      color: #ffffff
+
+.close
+  position: absolute
+  right: 8px
+  top: 8px
+  background: url(modules/form/sprite-close.svg)
+  cursor: pointer
+  anim()
+
+  &:hover
+    opacity: .8
+
+.row
+  cf()
+  margin-bottom: 12px
+
+.input-wrapper
+  width: 33.3333%
+  float: left
+  padding: 0 14px
+
+  &-textarea
+    padding: 0 14px
+
+.input
+  display: block
+  width: 100%
+  background: #E2E2E2
+  border: 0
+  border-radius: 12px
+  padding: 4px 12px
+  font-size: 12px
+  outline: 0
+
+.textarea
+  height: 70px
+  resize: none
+
+.files
+  width: 100%
+  position: relative
+  overflow: hidden
+  span
+    display: block
+    width: 100%
+    padding-left: 20px
+    color: #ffffff
+    line-height: 24px
+
+  input
+    position: absolute
+    right: 0
+    top: 0
+    width: 300%
+    height: 300%
+    opacity: 0
+    cursor: pointer
+
+  &:before
+    content: ''
+    display: block
+    background: url(modules/form/sprite-file.svg)
+    position: absolute
+    left: 0
+    top: 0
+
+  &-wrapper
+    width: 66.6666%
+    float: left
+    padding: 0 12px
+
+.submit
+  border: 2px solid #fff
+  background: transparent
+  border-radius: 12px
+  width: 100%
+  text-align: center
+  color: #ffffff
+  padding 5px 0
+  cursor: pointer
+  outline: 0
+  anim()
+
+  &:hover
+    opacity: .8
+  &:active
+    opacity: 1
+
+.span
+  display: block

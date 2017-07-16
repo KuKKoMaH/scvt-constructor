@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 160 35">
+    <defs>
+        <style>.cls-1{fill:url(#Безымянный_градиент_256);}</style>
+        <linearGradient id="Безымянный_градиент_256" x1="80" y1="35" x2="80" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#6585aa" stop-opacity="0.85"/>
+            <stop offset="0.5" stop-color="#56748f"/>
+            <stop offset="1" stop-color="#6585aa" stop-opacity="0.85"/>
+        </linearGradient>
+    </defs>
+    <title>Ресурс 1</title>
+    <g id="Слой_2" data-name="Слой 2">
+        <g id="Слой_1-2" data-name="Слой 1">
+            <rect class="cls-1" width="160" height="35" rx="17.5" ry="17.5"/>
+        </g>
+    </g>
+</svg>

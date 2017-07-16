@@ -1,5 +1,6 @@
-import randomString from '../../js/randomString';
+// import randomString from '../../js/randomString';
 import { setParam, getParam } from '../../js/history';
+import renderItem from './renderItem';
 
 const $body = $('body');
 const $svg = $('.' + mask_svg);
@@ -91,7 +92,7 @@ function selectItem( item, silent = false ) {
   item.$item.addClass(slider_active);
   currentItem = item;
   if (silent) return;
-  const newImage = (currentImage && item.item.mask)
+  const newImage = (currentImage && item.item.mask && currentCategory.item.upload)
     ? {
       ...item.item,
       full: currentImage
@@ -128,33 +129,12 @@ function buildSlider( category ) {
     const src = canUpload ? currentImage || item.thumb : item.thumb;
     const $item = $sliderItem.clone();
 
-    if (item.mask) {
-      const $inner = $svg.clone();
-      const img = new Image();
-      const id = randomString();
-      const $image = $inner.find('.' + mask_image);
-      const $path = $inner.find('.' + mask_path);
+    renderItem(src, item.mask, 100, 80).then(( dataURL ) => {
+      const image = new Image();
+      image.src = dataURL;
+      $item.html(image);
+    });
 
-      img.onload = function () {
-        $image.attr('xlink:href', src);
-        $image.attr('clip-path', `url(#${id})`);
-
-        $.get(item.mask, ( content ) => {
-          const $content = $(content);
-          const viewBox = $content.find('svg').attr('viewBox');
-          const mask = $content.find('polygon');
-
-          $inner.attr('viewBox', viewBox);
-          $path.attr('id', id);
-          $path.html(mask);
-        })
-      };
-      img.src = item.thumb;
-
-      $item.html($inner);
-    } else {
-      $item.html(`<img src="${src}" />`);
-    }
     return { item, $item };
   });
 
