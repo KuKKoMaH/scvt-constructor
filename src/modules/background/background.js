@@ -22,7 +22,7 @@ categories.forEach(( category ) => {
 });
 
 setTimeout(() => {
-  const bg = +getParam('background');
+  const bg = getParam('background');
   categories.forEach(( category ) => {
     if (!Array.isArray(category.item.items)) return;
     category.item.items.forEach(( item, i ) => {
@@ -61,6 +61,7 @@ function selectCategory( category ) {
 }
 
 function selectItem( item ) {
+  console.log(item);
   if (currentItem) currentItem.$item.removeClass(slider_active);
   item.$item.addClass(slider_active);
   currentItem = item;

@@ -1,5 +1,6 @@
 export default {
-  MINIMAL_SIZE:          5,                                  // минимальный размер картины в см
+  MINIMAL_SIZE:          window.MINIMAL_SIZE || 5,           // минимальный размер картины в см
+  SIZE_STEP:             window.SIZE_STEP || 5,              // шаг для изменения размера картины
   PIXELS_IN_CENTIMETRE:  window.PIXELS_IN_CENTIMETRE || 3.5, // кол-во пикселей в 1 см при масштабе 1
   PICTURE_SIZE:          window.PICTURE_SIZE || 70,          // размер картины в см
   PICTURE_X:             window.PICTURE_X || 0,              // смещение относильно центра в см

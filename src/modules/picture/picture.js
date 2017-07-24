@@ -1,9 +1,48 @@
 // import randomString from '../../js/randomString';
 import { setParam, getParam } from '../../js/history';
 import renderItem from './renderItem';
+import { types as existOrientationTypes } from '../orientation/orientation';
+
+/**
+ * @typedef {Array.<category>} categories
+ */
+
+/**
+ * @typedef {object} category
+ * @prop {orientations | Array.<modules>} items
+ * @prop {bool} modules
+ * @prop {string} title
+ * @prop {bool} upload
+ * @prop {jQuery} $el
+ */
+
+/**
+ * @typedef {object} modules
+ * @prop {number} count
+ * @prop {orientations} items
+ */
+
+/**
+ * @typedef {object} orientations
+ * @prop {pictures} [horizontal]
+ * @prop {pictures} [square]
+ * @prop {pictures} [vertical]
+ */
+
+/**
+ * @typedef {Array.<picture>} pictures
+ */
+
+/**
+ * @typedef {object} picture
+ * @prop {string} full
+ * @prop {string} id
+ * @prop {string} mask
+ * @prop {string} thumb
+ * @prop {jQuery} $el
+ */
 
 const $body = $('body');
-const $svg = $('.' + mask_svg);
 
 const $categoryItem = $(`<div class="${list_item}">`);
 const $categoryWrapper = $('.' + picture_items).find('.' + list_wrapper);
@@ -13,58 +52,93 @@ const $sliderWrapper = $('.' + picture_slider).find('.' + slider_content);
 
 /** ============================================================================== */
 
+/**
+ * @type {number}
+ */
 let currentCategory = null;
-let currentItem = null;
+/**
+ * @type {number}
+ */
 let currentModules = null;
+/**
+ * @type {string}
+ */
+let currentOrientation = null;
+/**
+ *
+ * @type {number}
+ */
+let currentItem = null;
+/**
+ *
+ * @type {string}
+ */
 let currentImage = null;
 
-let items = null;
-
-const categories = pictures.map(( item ) => {
-  const $item = $categoryItem.clone();
-  $item.html(item.title);
-  return { item, $item };
+/**
+ * @type {categories}
+ */
+const categories = window.pictures.map(( item ) => {
+  const $el = $categoryItem.clone();
+  $el.html(item.title);
+  if (item.upload) $el.addClass(list_upload);
+  return { ...item, $el };
 });
 
-categories.forEach(( category ) => {
-  $categoryWrapper.append(category.$item);
-  category.$item.on('click', () => selectCategory(category));
+categories.forEach(( category, i ) => {
+  $categoryWrapper.append(category.$el);
+  category.$el.on('click', () => selectCategory(i));
 });
 
 /** ============================================================================== */
 
 setTimeout(() => {
-  const picture = +getParam('picture');
-  categories.forEach(( category ) => {
-    if (!Array.isArray(category.item.items)) return;
-    category.item.items.forEach(( item, i ) => {
-      if (Array.isArray(item.items)) {
-        item.items.forEach(( innerItem, j ) => {
-          if (innerItem.id === picture) {
-            selectCategory(category);
-            selectModules(item.count);
-            selectItem(items[j]);
+  const picture = getParam('picture');
+  categories.forEach(( category, i ) => {
+    if (category.modules) {
+      category.items.forEach(( modules, j ) => {
+        existOrientationTypes.forEach(( type ) => {
+          if (!modules.items[type]) return;
+          modules.items[type].forEach(( item, k ) => {
+            if (item.id === picture) {
+              selectCategory(i, true);
+              selectModules(j, true);
+              selectOrientation(type);
+              selectItem(k);
+            }
+          })
+        })
+      })
+    } else {
+      existOrientationTypes.forEach(( type ) => {
+        if (!category.items[type]) return;
+        category.items[type].forEach(( item, k ) => {
+          if (item.id === picture) {
+            selectCategory(i, true);
+            selectOrientation(type);
+            selectItem(k);
           }
         })
-      } else {
-        if (item.id === picture) {
-          selectCategory(category);
-          selectItem(items[i]);
-        }
-      }
-    })
+      })
+    }
   });
-  if (!currentCategory || !currentItem) {
-    selectCategory(categories[0]);
-    selectItem(items[0]);
-  }
 
-  // selectCategory(categories[0]);
-  // selectItem(items[0]);
+  if (!Number.isInteger(currentCategory) || !Number.isInteger(currentItem)) {
+    selectCategory(0);
+    selectItem(0);
+  }
 });
 
-$body.on('modules:plus', () => selectModules(currentModules + 1));
-$body.on('modules:minus', () => selectModules(currentModules - 1));
+$body.on('modules:plus', () => {
+  const category = getCurrentCategory();
+  const nextModules = currentModules + 1;
+  if (category.items[nextModules]) selectModules(nextModules);
+});
+$body.on('modules:minus', () => {
+  const nextModules = currentModules - 1;
+  if (nextModules >= 0) selectModules(nextModules);
+});
+$body.on('orientation:select', ( e, type ) => selectOrientation(type));
 $body.on('picture:remove', () => {
   currentImage = null;
   selectCategory(currentCategory);
@@ -73,47 +147,127 @@ $body.on('picture:remove', () => {
 
 /** ============================================================================== */
 
-function selectCategory( category ) {
-  if (currentCategory) currentCategory.$item.removeClass(list_active);
-  category.$item.addClass(list_active);
-  currentCategory = category;
+/**
+ *
+ * @param {number} i
+ * @param {boolean} [silent]
+ */
+function selectCategory( i, silent ) {
+  if (Number.isInteger(currentCategory)) categories[currentCategory].$el.removeClass(list_active);
+  const category = categories[i];
+  category.$el.addClass(list_active);
+  currentCategory = i;
 
-  if (category.item.modules) {
+  if (category.modules) {
     $body.trigger('modules:show');
-    selectModules(category.item.items[0].count);
+    if (!silent) selectModules(0);
   } else {
     $body.trigger('modules:hide');
-    items = buildSlider(category.item);
+    buildOrientation(silent);
   }
 }
 
-function selectItem( item, silent = false ) {
-  if (currentItem) currentItem.$item.removeClass(slider_active);
-  item.$item.addClass(slider_active);
-  currentItem = item;
+/**
+ *
+ * @param {number} i
+ * @param {boolean} [silent]
+ */
+function selectModules( i, silent ) {
+  const modules = categories[currentCategory].items[i];
+  currentModules = i;
+  $body.trigger('modules:set', modules.count);
+  buildOrientation(silent);
   if (silent) return;
-  const newImage = (currentImage && item.item.mask && currentCategory.item.upload)
+}
+
+/**
+ *
+ * @param {string} orientation
+ */
+function selectOrientation( orientation ) {
+  currentOrientation = orientation;
+  $body.trigger('orientation:set', orientation);
+  buildSlider();
+}
+
+/**
+ * @param {number} i
+ * @param {boolean} silent
+ */
+function selectItem( i, silent = false ) {
+  const category = getCurrentCategory();
+  const items = getCurrentItems();
+  const item = items[i];
+
+  if (Number.isInteger(currentItem) && items[currentItem] && items[currentItem].$el) {
+    items[currentItem].$el.removeClass(slider_active);
+  }
+  currentItem = i;
+
+  item.$el.addClass(slider_active);
+  if (silent) return;
+
+  const newImage = (currentImage && item.mask && category.upload)
     ? {
-      ...item.item,
+      ...item,
       full: currentImage
     }
-    : item.item;
+    : item;
   $body.trigger('picture:change', [newImage]);
   setParam('picture', newImage.id);
 }
 
-function selectModules( count ) {
-  const category = currentCategory.item.items.find(c => c.count === count);
-  if (!category) return;
-  currentModules = count;
-  items = buildSlider(category);
-  $body.trigger('modules:set', currentModules);
+/** ============================================================================== */
+
+function getCurrentCategory() {
+  return categories[currentCategory];
 }
 
-function buildSlider( category ) {
+function getCurrentModules() {
+  const category = getCurrentCategory();
+  return category.items[currentModules];
+}
+
+/**
+ *
+ * @return {orientations}
+ */
+function getCurrentOrientations() {
+  const category = getCurrentCategory();
+  return (category.modules ? getCurrentModules() : category).items;
+}
+
+/**
+ *
+ * @return {pictures}
+ */
+function getCurrentItems() {
+  const orientations = getCurrentOrientations();
+  return orientations[currentOrientation];
+}
+
+/** ============================================================================== */
+
+/**
+ *
+ * @param {boolean} [silent]
+ */
+function buildOrientation( silent ) {
+  const orientations = getCurrentOrientations();
+  const availableOrientations = Object.keys(orientations);
+  $body.trigger('orientation:toggle', [availableOrientations]);
+  if (silent) return;
+  const firstOrientation = existOrientationTypes.find(type => orientations[type]);
+  selectOrientation(firstOrientation);
+}
+
+function buildSlider() {
+  const category = categories[currentCategory];
+  const orientations = getCurrentOrientations();
+  const items = getCurrentItems();
   $sliderWrapper.empty();
 
-  const canUpload = currentCategory.item.upload;
+  const canUpload = category.upload;
   if (canUpload) {
     const $upload = $sliderItem.clone();
     const $uploadInput = $('<input type="file" />');
@@ -123,28 +277,26 @@ function buildSlider( category ) {
     $sliderWrapper.append($upload);
   }
 
-  if (!Array.isArray(category.items)) return null;
-
-  const slides = category.items.map(( item ) => {
+  const slides = items.map(( item ) => {
     const src = canUpload ? currentImage || item.thumb : item.thumb;
-    const $item = $sliderItem.clone();
+    const $el = $sliderItem.clone();
 
-    renderItem(src, item.mask, 100, 80).then(( dataURL ) => {
+    renderItem(src, item.mask, 126, 94).then(( dataURL ) => {
       const image = new Image();
       image.src = dataURL;
-      $item.html(image);
+      $el.html(image);
     });
 
-    return { item, $item };
+    return { ...item, $el };
   });
 
-  slides.forEach(( item ) => {
-    $sliderWrapper.append(item.$item);
-    if (currentItem && item.item === currentItem.item) selectItem(item, true);
-    item.$item.on('click', () => selectItem(item));
+  slides.forEach(( item, i ) => {
+    $sliderWrapper.append(item.$el);
+    if (currentItem && item.id === currentItem.id) selectItem(i, true);
+    item.$el.on('click', () => selectItem(i));
   });
 
-  return slides;
+  orientations[currentOrientation] = slides;
 }
 
 function onFileUpload() {

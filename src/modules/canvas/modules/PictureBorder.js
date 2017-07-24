@@ -5,7 +5,8 @@ const BORDER_OPACITY = .1;
 export default class PictureBorder {
   constructor() {
     this.lastPosition = null;
-    this.listeners = [];
+    this.listenersResize = [];
+    this.listenersResizeEnd = [];
 
     this.container = new PIXI.Container();
     this.container.zIndex = 102;
@@ -39,11 +40,13 @@ export default class PictureBorder {
         if (!this.over) that.container.alpha = BORDER_OPACITY;
         this.dragging = false;
         this.data = null;
+        that.listenersResizeEnd.forEach(cb => cb());
       })
       .on('pointerupoutside', function () {
         if (!this.over) that.container.alpha = BORDER_OPACITY;
         this.dragging = false;
         this.data = null;
+        that.listenersResizeEnd.forEach(cb => cb());
       })
       .on('pointermove', function (event) {
         if (this.dragging) {
@@ -54,7 +57,7 @@ export default class PictureBorder {
           if (!offsetX && !offsetY) return;
 
           this.lastPosition = [x, y];
-          that.listeners.forEach(cb => cb(i, i % 2 === 0 ? offsetX : offsetY));
+          that.listenersResize.forEach(cb => cb(i, i % 2 === 0 ? offsetX : offsetY));
         }
       });
 
@@ -98,7 +101,10 @@ export default class PictureBorder {
   }
 
   onResize(cb) {
-    this.listeners.push(cb);
+    this.listenersResize.push(cb);
+  }
+  onResizeEnd(cb) {
+    this.listenersResizeEnd.push(cb);
   }
 
   positionate(picture) {

@@ -1,4 +1,5 @@
 import 'pixi.js';
+import { getParam } from '../../../js/history';
 import config from './config';
 import onWindowResize from './utils/onWindowResize';
 import Background from './Background';
@@ -13,11 +14,15 @@ export default class App {
     const background = new Background({ app });
     app.stage.addChild(background.container);
 
+    const size = +getParam('size');
+    const x = +getParam('x');
+    const y = +getParam('y');
+
     const picture = new Picture({
       app,
-      pictureX:    config.PICTURE_X,
-      pictureY:    config.PICTURE_Y,
-      pictureSize: config.PICTURE_SIZE,
+      pictureX:    x || config.PICTURE_X,
+      pictureY:    y || config.PICTURE_Y,
+      pictureSize: size > config.MINIMAL_SIZE ? size : config.PICTURE_SIZE,
     });
     app.stage.addChild(picture.container);
 
@@ -64,7 +69,7 @@ export default class App {
     const scale = (cRatio > bgRatio)
       ? renderer.width / width
       : renderer.height / height;
-    if (!Number.isFinite(scale)) return;
+    if (!isFinite(scale)) return;
     console.log('scale', scale);
     this.scale = scale;
     this.picture.setScale(scale);

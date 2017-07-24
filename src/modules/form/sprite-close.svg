@@ -5,7 +5,7 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
-        <g id="sprite-close" stroke="#FFFFFF" stroke-width="1.5">
+        <g id="sprite-close" stroke="#000000" stroke-width="1.5">
             <path d="M0,12 L12,0" id="Path-2"></path>
             <path d="M-2.84217094e-14,0 L12,12" id="Path-3"></path>
         </g>

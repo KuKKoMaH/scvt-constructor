@@ -6,30 +6,37 @@
   text-align: center
   display: none
 
+  &:after
+    content: ''
+    display: block
+    height: 1px
+    background: #fff
+    margin-top: 4px
+
 .text
   font-size: 16px
   display: inline-block
   vertical-align: middle
 
 .input
-  background: #ffffff
-  border: 1px solid #E3E3E3
-  width: 55px
-  height: 24px
-  line-height: 24px
-  border-radius: 4px
   margin: 0 5px
   display: inline-block
   vertical-align: middle
   position: relative
 
 .count
+  border-radius: 4px
+  line-height: 24px
+  height: 24px
+  width: 30px
+  background: #ffffff
+  border: 1px solid #E3E3E3
   display: block
-  padding-right: 25px
+  margin-right: 20px
 
 .button
   position: absolute
-  right: 4px
+  right: 0
   padding: 4px
   cursor: pointer
   anim()

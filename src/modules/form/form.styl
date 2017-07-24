@@ -1,13 +1,18 @@
 .button
-  position: absolute
-  right: 10px
-  bottom: 40px
-  background: url(modules/form/sprite-button.svg)
+  display: inline-block
+  vertical-align: middle
+  //position: absolute
+  //right: 10px
+  //bottom: 40px
+  background: #E48520
+  border: 2px solid #fff
   text-align: center
   color: #fff
-  line-height: 35px
+  line-height: 1
+  padding 8px 18px
   cursor: pointer
   z-index: 2
+  border-radius: 18px
   anim()
 
   &:hover
@@ -19,30 +24,117 @@
 .form
   display: block
 
+  p
+    text-align: center
+    margin: 0 0 .75em
+
 .popup
-  position: absolute
-  bottom: 10px
-  width: 400px
-  left: 50%
-  margin-left: -200px
-  background: rgba(#000, .5)
-  border-radius: 10px
-  padding: 14px 12px 0
   display: none
+  position: absolute
+  bottom: 0
+  max-width: 880px
+  max-height: 100%
+  overflow: auto
+  width: 90%
+  left: 50%
+  transform: translateX(-50%)
+  background: #E6FFFE
+  border: 1px solid #999999
+  border-radius: 6px
+  padding: 14px 12px 0
   z-index: 100
+  font-size: 16px
 
   :global
     .screen-reader-response
       display: none
     .wpcf7-response-output
       text-align: center
-      color: #ffffff
+      color: #000
     .wpcf7-not-valid-tip
       display: block
       font-size: 10px
       line-height: 10px
       margin-top: 2px
-      color: #ffffff
+      color: #000
+
+    .wpcf7-form-control-wrap
+      display: block
+      margin-bottom: 5px
+
+    .wpcf7-radio
+      .wpcf7-list-item
+        display: block
+        position: relative
+
+      label
+        display: block
+        cursor: pointer
+        margin-left: 8px
+
+        &:before
+          content: '- '
+          display: inline
+
+      input
+        display: none
+
+        &:checked + .wpcf7-list-item-label:before
+          content: ''
+          display: inline-block
+          position: absolute
+          right: 2px
+          top: 50%
+          margin-top: -3px
+          width: 6px
+          height: 6px
+          border-radius: 50%
+          background: #000
+
+      .wpcf7-list-item-label:after
+        content: ''
+        display: inline-block
+        position: absolute
+        right: 0
+        top: 50%
+        margin-top: -5px
+        width: 10px
+        height: 10px
+        border: 1px solid #000
+        border-radius: 50%
+
+    .wpcf7-checkbox
+      .wpcf7-list-item
+        display: block
+        position: relative
+
+      label
+        display: block
+        cursor: pointer
+
+      input
+        display: none
+
+        &:checked + .wpcf7-list-item-label:before
+          content: ''
+          display: inline-block
+          position: absolute
+          right: -5px
+          top: 50%
+          margin-top: -7px
+          background: url(modules/form/sprite-checkbox.svg)
+
+      .wpcf7-list-item-label:after
+        content: ''
+        display: inline-block
+        position: absolute
+        right: 0
+        top: 50%
+        margin-top: -5px
+        width: 10px
+        height: 10px
+        border: 1px solid #000
+        //border-radius: 50%
 
 .close
   position: absolute
@@ -59,22 +151,43 @@
   cf()
   margin-bottom: 12px
 
-.input-wrapper
-  width: 33.3333%
+.col
   float: left
-  padding: 0 14px
+  width: 50%
+  padding: 0 5%
 
-  &-textarea
+.col_3_4
+  float: left
+  width: 75%
+.col_1_4
+  float: left
+  width: 25%
+  text-align: center
+
+.input
+  &-wrapper
+    width: 33.3333%
+    float: left
     padding: 0 14px
+
+    &-textarea
+      padding: 0 14px
+      margin: 12px 0
+
+  &-group
+    margin-top: 35px
+    cf()
 
 .input
   display: block
   width: 100%
-  background: #E2E2E2
-  border: 0
-  border-radius: 12px
-  padding: 4px 12px
-  font-size: 12px
+  background: #fff
+  border: 1px solid #999999
+  border-radius: 16px
+  padding: 6px 12px
+  font-size: 16px
+  font-family: inherit
+  font-weight: 300
   outline: 0
 
 .textarea
@@ -89,8 +202,8 @@
     display: block
     width: 100%
     padding-left: 20px
-    color: #ffffff
-    line-height: 24px
+    color: #000
+    line-height: 32px
 
   input
     position: absolute
@@ -107,21 +220,23 @@
     background: url(modules/form/sprite-file.svg)
     position: absolute
     left: 0
-    top: 0
+    top: 50%
+    transform: translateY(-50%)
 
   &-wrapper
-    width: 66.6666%
-    float: left
     padding: 0 12px
 
 .submit
-  border: 2px solid #fff
-  background: transparent
-  border-radius: 12px
-  width: 100%
+  border: 1px solid #fff
+  background: #567F4E
+  border-radius: 16px
+  //width: 100%
   text-align: center
   color: #ffffff
-  padding 5px 0
+  font-size: 16px
+  font-family: inherit
+  font-weight: 300
+  padding 6px 18px
   cursor: pointer
   outline: 0
   anim()
@@ -133,3 +248,7 @@
 
 .span
   display: block
+
+.yoba
+  margin: 0 auto
+  background: url(modules/form/sprite-yoba.png)

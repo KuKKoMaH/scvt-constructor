@@ -1,9 +1,11 @@
 .wrapper
   padding: 0 8px
-  height: 60px
+  height: 50px
   line-height: 1
-  display: table
   width: 100%
+  background: #FFFDD9
+  border-bottom: 1px solid #999999
+  text-align: right
 
   &:before
     content: ''
@@ -11,21 +13,27 @@
     height: 100%
     vertical-align: middle
 
+.image-wrapper
+  float: left
+
+.logo
+  float: left
+  margin-top: 7px
+  text-align: center
+
 .image-wrapper,
 .logo,
 .menu,
 .contacts
   vertical-align: middle
-  display: table-cell
+  display: inline-block
 
-.image-wrapper
-  width: 51px
-.logo
-  width: 1px
-.contacts
-  width: 200px
-.logo
-  text-align: center
+//.image-wrapper
+//  width: 51px
+//.contacts
+//  width: 200px
+//.logo
+
 
 .image
   margin-right: 1em
@@ -34,7 +42,7 @@
   font-size: 24px
 
 .subtitle
-  font-size: 11px
+  font-size: 12px
 
 .menu
   text-align: right
@@ -64,20 +72,23 @@
 .contacts
   text-align: right
   position: relative
-  padding-right: 30px
-  width: 220px
+  margin-left: 30px
+  //padding-right: 30px
+  //width: 220px
 
-  &:before
-    content: ''
-    position: absolute
-    right: 0
-    top: 14px
-    background: url(modules/header/sprite-phone.svg)
+  //&:before
+  //  content: ''
+  //  position: absolute
+  //  right: 0
+  //  top: 14px
+  //  background: url(modules/header/sprite-phone.svg)
 
 .phone
-  font-size: 22px
+  font-size: 18px
+  margin-bottom: 3px
 
 .work
   font-size: 12px
+  letter-spacing: 1px
   color: #666666
   margin-top: 3px

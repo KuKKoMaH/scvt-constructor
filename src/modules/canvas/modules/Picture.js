@@ -1,5 +1,6 @@
 import Promise from 'bluebird';
 import './DropShadowFilter';
+import { setParam } from '../../../js/history';
 import sortChildren from './utils/sortChildren';
 import onMove from './utils/pictureMove';
 import loadMask from './utils/loadMask';
@@ -13,6 +14,7 @@ export default class Picture {
     this.pictureX = pictureX || 0;
     this.pictureY = pictureY || 0;
     this.pictureSize = pictureSize || 70;
+    this.pictureBufferSize = this.pictureSize;
 
     this.scale = null;
     this.ratio = null;
@@ -37,7 +39,7 @@ export default class Picture {
       picture.interactive = true;
       picture.buttonMode = true;
 
-      onMove(picture, this.onMove.bind(this));
+      onMove(picture, this.onMove.bind(this), this.onMoveEnd.bind(this));
 
       return picture;
     });
@@ -96,6 +98,7 @@ export default class Picture {
         this.ratio = picture.width / picture.height;
       }
 
+      $('body').trigger('picture:resize', [this.getSize()]);
       this.positionate();
     });
   }
@@ -108,6 +111,11 @@ export default class Picture {
     this.positionate();
   };
 
+  onMoveEnd() {
+    setParam('x', this.pictureX);
+    setParam('y', this.pictureY);
+  }
+
   /**
    *
    * @param {[1,2,3,4]} side - сторона смещения: [верх, право, низ, лево]
@@ -115,28 +123,41 @@ export default class Picture {
    */
   onResize( side, offset ) {
     const { pixelsInCentimetre, pictureX, pictureY, pictureSize } = this;
-    const onResize = [
+    const calcSize = [
       null,
-      ( offsetInSm ) => { // Верхняя
-        this.pictureSize -= offsetInSm;
-        this.pictureY = pictureY - offsetInSm / 2;
-      },
-      ( offsetInSm ) => { // Правая
-        this.pictureSize += offsetInSm / this.ratio;
-        this.pictureX = pictureX - offsetInSm / 2;
-      },
-      ( offsetInSm ) => { // Нижняя
-        this.pictureSize += offsetInSm;
-        this.pictureY = pictureY - offsetInSm / 2;
-      },
-      ( offsetInSm ) => { // Левая
-        this.pictureSize -= offsetInSm / this.ratio;
-        this.pictureX = pictureX - offsetInSm / 2;
-      },
+      offsetInSm => -offsetInSm,
+      offsetInSm => offsetInSm / this.ratio,
+      offsetInSm => offsetInSm,
+      offsetInSm => -offsetInSm / this.ratio
     ];
-    onResize[side](offset / pixelsInCentimetre);
-    if (pictureSize < config.MINIMAL_SIZE) this.pictureSize = config.MINIMAL_SIZE;
+    this.pictureBufferSize = this.pictureBufferSize + calcSize[side](offset / pixelsInCentimetre);
+    const mod = this.pictureBufferSize % config.SIZE_STEP;
+    let size = mod < config.SIZE_STEP / 2
+      ? this.pictureBufferSize - mod
+      : this.pictureBufferSize - mod + config.SIZE_STEP;
+
+    if (size < config.MINIMAL_SIZE) size = config.MINIMAL_SIZE;
+
+    if (size !== this.pictureSize) {
+      const calcPosition = [
+        null,
+        diff => this.pictureY = pictureY + diff / 2,
+        diff => this.pictureX = pictureX - diff * this.ratio / 2,
+        diff => this.pictureY = pictureY - diff / 2,
+        diff => this.pictureX = pictureX + diff * this.ratio / 2,
+      ];
+      calcPosition[side](size - this.pictureSize);
+    }
+    this.pictureSize = size;
+
+    $('body').trigger('picture:resize', [this.getSize()]);
     this.positionate();
+  }
+
+  onResizeEnd() {
+    setParam('size', this.pictureSize);
+    setParam('x', this.pictureX);
+    setParam('y', this.pictureY);
   }
 
   positionate() {
@@ -149,9 +170,13 @@ export default class Picture {
       mask.scale = new PIXI.Point(maskScale, maskScale);
 
       if (picture) {
-        const pictureScale = mask.width <= mask.height
-          ? mask.height / picture.height * picture.scale.y
-          : mask.width / picture.width * picture.scale.y;
+        const pictureScale = mask.height === mask.width
+          ? picture.width > picture.height
+            ? mask.height / picture.height * picture.scale.y
+            : mask.width / picture.width * picture.scale.x
+          : mask.height >= mask.width
+            ? mask.height / picture.height * picture.scale.y
+            : mask.width / picture.width * picture.scale.x;
         picture.scale = new PIXI.Point(pictureScale, pictureScale);
       }
     } else {
@@ -185,6 +210,7 @@ export default class Picture {
   createBorder() {
     const border = new PictureBorder();
     border.onResize(this.onResize.bind(this));
+    border.onResizeEnd(this.onResizeEnd.bind(this));
     return border;
   }
 
@@ -192,5 +218,9 @@ export default class Picture {
     const container = this.container;
     container.addChild(children);
     sortChildren(container);
+  }
+
+  getSize() {
+    return [this.ratio * this.pictureSize, this.pictureSize];
   }
 }

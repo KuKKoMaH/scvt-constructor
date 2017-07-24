@@ -1,4 +1,5 @@
-$headerHeight = 60px;
+$headerHeight = 50px;
+$footerHeight = 50px;
 $sidebarWidth = 150px + 8px + 8px;
 .wrapper
   height: 100%
@@ -16,11 +17,17 @@ $sidebarWidth = 150px + 8px + 8px;
   left: 0
   width: 100%
 
+.footer
+  position: absolute
+  bottom: 0
+  left: 0
+  width: 100%
+
 .sidebar
   width: $sidebarWidth
   top: $headerHeight
-  bottom: 0
-  padding: 0 8px 8px
+  bottom: $footerHeight
+  padding: 8px
   position: absolute
 
 .left
@@ -32,8 +39,8 @@ $sidebarWidth = 150px + 8px + 8px;
 .content
   position: absolute
   top: $headerHeight
-  bottom: 0
+  bottom: $footerHeight
   left: $sidebarWidth
   right: $sidebarWidth
-  padding-bottom: 8px
+  padding: 8px 0
   overflow: hidden

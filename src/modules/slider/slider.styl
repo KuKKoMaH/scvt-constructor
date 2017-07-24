@@ -7,26 +7,26 @@
   position: relative
 
 .container
-  border-radius: 10px
-  background: #E5E5E5
-  border: 1px solid #D9D9D9
+  border-radius: 4px
+  background: #3C4048
+  //border: 1px solid #D9D9D9
   position: absolute
   top: 0
   right: 0
   bottom: 0
   left: 0
-  padding: 10px 0 6px
+  padding: 7px 0
 
 .content
   display: block
-  padding: 0 4px
+  padding: 4px
 
 .item
   height: 110px
   line-height: 110px
   font-size: 0
-  background: #D9D9D9
-  border: 1px solid #fff
+  background: #EBE3D0
+  //border: 1px solid #fff
   border-radius: 10px
   margin-bottom: 4px
   cursor: pointer
@@ -40,14 +40,15 @@
     vertical-align: middle
 
   img
-    max-height: 100px
-    max-width: 100px
+    max-height: 94px
+    max-width: 126px
 
 .active
-    background: #666666
+    background: #2D4348
 
 .baron
   height: 100%
+  background: #81B68E
 
 .upload
   background: #BCBCBC
@@ -70,12 +71,11 @@
 
 :global
   .baron
-    &__track,
-    &__free,
-    &__bar
-      right: auto
-      //left: -4px
-      left: 0
+    &__clipper
+      overflow: visible !important
+    &__track
+      right: -2px
     &__bar
       width: 2px
-      background: #000
+      background: #3C4048
+      border-radius: 3px

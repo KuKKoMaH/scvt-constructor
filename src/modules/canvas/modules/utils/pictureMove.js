@@ -1,4 +1,4 @@
-export default ( picture, cb ) => {
+export default ( picture, onMoveCb, onMoveEndCb ) => {
   let lastPosition = null;
 
   picture
@@ -21,6 +21,7 @@ export default ( picture, cb ) => {
     // this.alpha = 1;
     this.dragging = false;
     this.data = null;
+    onMoveEndCb();
   }
 
   function onDragMove( event ) {
@@ -31,7 +32,7 @@ export default ( picture, cb ) => {
       const offsetY = lastPosition[1] - y;
       if (!offsetX && !offsetY) return;
       lastPosition = [x, y];
-      cb(offsetX, offsetY);
+      onMoveCb(offsetX, offsetY);
     }
   }
 }

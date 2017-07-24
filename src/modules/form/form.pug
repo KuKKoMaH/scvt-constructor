@@ -1,18 +1,51 @@
 .form-wrapper
-  .form-button Продолжить
   .form-popup
     .form-close
     form.form-form
       .form-row
-        .form-input-wrapper: input.form-input(placeholder='Имя')
-        .form-input-wrapper: input.form-input(placeholder='Телефон')
-        .form-input-wrapper: input.form-input(placeholder='Почта')
+        p Присылайте нам на обработку свои фото, чтобы получить действительно классную картину!
+        p Ответным письмом мы пришлем варианты исполнения Вашего заказа.
       .form-row
-        .form-input-wrapper-textarea: textarea.form-input.form-textarea(placeholder='Сообщение')
+        .form-col
+          .form-label Холст:
+          span(class="wpcf7-form-control-wrap radio-611")
+            span(class="wpcf7-form-control wpcf7-radio")
+              span(class="wpcf7-list-item first")
+                label
+                  input(type="radio" name="radio-611" value="натуральный, 100% хлопок" checked)
+                  span(class="wpcf7-list-item-label") натуральный, 100% хлопок
+              span(class="wpcf7-list-item")
+                label
+                  input(type="radio" name="radio-611" value="натуральный, 100% лён")
+                  span(class="wpcf7-list-item-label") натуральный, 100% лён
+              span(class="wpcf7-list-item")
+                label
+                  input(type="radio" name="radio-611" value="полунатуральный")
+                  span(class="wpcf7-list-item-label") полунатуральный
+              span(class="wpcf7-list-item last")
+                label
+                  input(type="radio" name="radio-611" value="искусственный")
+                  span(class="wpcf7-list-item-label") искусственный
+          span(class="wpcf7-form-control-wrap checkbox-150")
+            span(class="wpcf7-form-control wpcf7-checkbox")
+              span(class="wpcf7-list-item first last")
+                label
+                  input(type="checkbox" name="checkbox-150[]" value="Покрытие защитным лаком")
+                  span(class="wpcf7-list-item-label") Покрытие защитным лаком
+        .form-col
+          | zxc
       .form-row
-        .form-files-wrapper
-          .form-files
-            span.form-span Прикрепить файл
-            input(type='file' multiple)
-        .form-input-wrapper
+        .form-col_3_4
+          .form-input-group
+            .form-input-wrapper: input.form-input(placeholder='Имя')
+            .form-input-wrapper: input.form-input(placeholder='Телефон')
+            .form-input-wrapper: input.form-input(placeholder='Почта')
+          .form-input-wrapper-textarea: textarea.form-input.form-textarea(placeholder='Сообщение')
+          .form-files-wrapper
+            .form-files
+              span.form-span Прикрепить дополнительные файлы
+              input(type='file' multiple)
+        .form-col_1_4
+          div.form-yoba
           input.form-submit(type='submit' value='Отправить')
+      .form-row

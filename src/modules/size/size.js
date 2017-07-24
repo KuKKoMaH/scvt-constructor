@@ -1,17 +1,15 @@
-let currentSize = null;
+import app from '../canvas/canvas';
+// let currentSize = null;
 
-$('.' + size_minus).on('click', () => setSize(currentSize - 10));
-$('.' + size_plus).on('click', () => setSize(currentSize + 10));
+// $('.' + size_minus).on('click', () => setSize(currentSize - 10));
+// $('.' + size_plus).on('click', () => setSize(currentSize + 10));
 
-const $size = $('.' + size_size);
+const $size = $('.' + size_wrapper);
 const $body = $('body');
 
-setSize(70);
+$body.on('picture:resize', (e, size) => setSize(size));
 
 function setSize( size ) {
-  if(size > window.size.maxWidth) return;
-  if(size < window.size.minWidth) return;
-  currentSize = size;
-  $size.html(currentSize + ' см');
-  $body.trigger('size:change', currentSize);
+  $size.html(`${size[0].toFixed(0)} x ${size[1].toFixed(0)} см`);
 }
+
