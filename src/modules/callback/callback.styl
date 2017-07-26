@@ -1,0 +1,35 @@
+.wrapper
+  position: absolute
+  right: 0
+  top: 100%
+  background: #E6FFFE
+  border: 1px solid #999999
+  border-top: 0
+  border-radius: 0 0 6px 6px
+  padding: 12px 24px
+  pointer-events: none
+  opacity: 0
+  transform: translate3d(0, -($header-height), 0)
+  transition: all .3s ease-out
+  width: 330px
+
+  &_active
+    pointer-events: all
+    opacity: 1
+    transform: translate3d(0, 0, 0)
+
+  p
+    text-align: center
+
+.close
+  position: absolute
+  right: 10px
+  top: 10px
+  background: url(modules/form/sprite-close.svg)
+  cursor: pointer
+
+.input
+  margin-bottom: 8px
+
+.submit
+  text-align: right

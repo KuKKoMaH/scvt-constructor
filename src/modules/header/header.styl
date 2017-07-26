@@ -1,43 +1,17 @@
 .wrapper
-  padding: 0 8px
-  height: 50px
+  height: $header-height
   line-height: 1
   width: 100%
-  background: #FFFDD9
-  border-bottom: 1px solid #999999
-  text-align: right
-
-  &:before
-    content: ''
-    display: inline-block
-    height: 100%
-    vertical-align: middle
-
-.image-wrapper
-  float: left
+  background: #EFD8A8
+  position: relative
+  z-index: 1
 
 .logo
   float: left
-  margin-top: 7px
+  width: $sidebar-width
+  margin-top: 2px
   text-align: center
 
-.image-wrapper,
-.logo,
-.menu,
-.contacts
-  vertical-align: middle
-  display: inline-block
-
-//.image-wrapper
-//  width: 51px
-//.contacts
-//  width: 200px
-//.logo
-
-
-.image
-  margin-right: 1em
-  
 .title
   font-size: 24px
 
@@ -45,50 +19,66 @@
   font-size: 12px
 
 .menu
-  text-align: right
+  text-align: center
 
   ul
     margin: 0
     padding: 0
+    text-align: center
+    //line-height: 0
+    //font-size: 0
+    //&:after
+    //  content: ''
+    //  display: inline-block
+    //  width: 100%
 
   li
     display: inline-block
     vertical-align: middle
-    margin: 0 2%
+    margin: 0 1%
+
+    @media (max-width: 1100px)
+      margin: 0 .5%
+
 
   a
+    font-size: 16px
     display: block
-    font-size: 18px
-    color: #000000
+    height: 100%
+    cursor: pointer
+    color: inherit
     text-decoration: none
-    padding-bottom: 3px
+    padding: 0 5px
     border-bottom: 2px solid transparent
+    line-height: $header-height
     anim()
 
-    &:hover
+    &:hover,
+    &.active
+      background: rgba(#000, 0.08)
       border-bottom: 2px solid #000
 
-
 .contacts
-  text-align: right
+  float: right
+  width: $sidebar-width
+  margin-top: 3px
+  text-align: center
   position: relative
-  margin-left: 30px
-  //padding-right: 30px
-  //width: 220px
-
-  //&:before
-  //  content: ''
-  //  position: absolute
-  //  right: 0
-  //  top: 14px
-  //  background: url(modules/header/sprite-phone.svg)
 
 .phone
   font-size: 18px
-  margin-bottom: 3px
+  margin-bottom: 1px
 
 .work
   font-size: 12px
   letter-spacing: 1px
   color: #666666
   margin-top: 3px
+
+.callback
+  font-size: 14px
+  color: #2E3192
+  cursor: pointer
+
+  &:hover
+    text-decoration: underline

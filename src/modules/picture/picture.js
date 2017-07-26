@@ -73,6 +73,11 @@ let currentItem = null;
  *
  * @type {string}
  */
+let currentItemId = null;
+/**
+ *
+ * @type {string}
+ */
 let currentImage = null;
 
 /**
@@ -203,6 +208,7 @@ function selectItem( i, silent = false ) {
     items[currentItem].$el.removeClass(slider_active);
   }
   currentItem = i;
+  currentItemId = item.id;
 
   item.$el.addClass(slider_active);
   if (silent) return;
@@ -290,13 +296,14 @@ function buildSlider() {
     return { ...item, $el };
   });
 
+  orientations[currentOrientation] = slides;
+
   slides.forEach(( item, i ) => {
     $sliderWrapper.append(item.$el);
-    if (currentItem && item.id === currentItem.id) selectItem(i, true);
+    if (item.id === currentItemId) selectItem(i, true);
     item.$el.on('click', () => selectItem(i));
   });
 
-  orientations[currentOrientation] = slides;
 }
 
 function onFileUpload() {

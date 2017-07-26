@@ -1,33 +1,32 @@
-$headerHeight = 50px;
-$footerHeight = 50px;
-$sidebarWidth = 150px + 8px + 8px;
 .wrapper
   height: 100%
   width: 100%
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
 
 .header
   position: absolute
   top: 0
   left: 0
   width: 100%
+  z-index: 10
 
 .footer
   position: absolute
   bottom: 0
   left: 0
+  z-index: 10
   width: 100%
 
 .sidebar
-  width: $sidebarWidth
-  top: $headerHeight
-  bottom: $footerHeight
-  padding: 8px
+  width: $sidebar-width
+  top: $header-height
+  bottom: $footer-height
+  padding: $block-spacing
   position: absolute
 
 .left
@@ -37,10 +36,10 @@ $sidebarWidth = 150px + 8px + 8px;
   right: 0
 
 .content
+  //overflow: hidden
   position: absolute
-  top: $headerHeight
-  bottom: $footerHeight
-  left: $sidebarWidth
-  right: $sidebarWidth
-  padding: 8px 0
-  overflow: hidden
+  top: $header-height
+  bottom: $footer-height
+  left: $sidebar-width
+  right: $sidebar-width
+  padding: $block-spacing 0

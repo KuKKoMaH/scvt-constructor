@@ -1,0 +1,42 @@
+.wrapper
+  position: absolute
+  max-height: 100%
+  top: 0
+  left: 50%
+  width: 100%
+  max-width: 800px
+  height: 100%
+  background: #E0FFFF
+  border: 1px solid #4D4D4D
+  border-top: 0
+  border-radius: 0 0 6px 6px
+  padding: 0 0 6px
+  z-index: 2
+  pointer-events: none
+  opacity: 0
+  transform: translate3d(-50%, -($header-height), 0)
+  transition: all .3s ease-out
+
+  &_active
+    pointer-events: all
+    opacity: 1
+    transform: translate3d(-50%, 0, 0)
+
+  p
+    margin: 0 0 .5em
+
+.baron
+  height: 100%
+
+.content
+  padding: 18px 24px
+
+.text
+  display: block
+
+.close
+  position: absolute
+  right: 10px
+  top: 10px
+  background: url(modules/form/sprite-close.svg)
+  cursor: pointer

@@ -6,17 +6,18 @@
  * https://apiok.ru/ext/like
  */
 
-let image = null;
-$('body').on('background:change', ( e, item ) => {
-  if (!item) return;
-  image = item.item.full;
-});
+// let image = null;
+// $('body').on('background:change', ( e, item ) => {
+//   if (!item) return;
+//   image = item.item.full;
+// });
 
 const getParams = () => ({
   url:   encodeURIComponent(window.location.href),
   title: encodeURIComponent(document.title),
   desc:  encodeURIComponent($('meta[name="description"]').attr('content')),
-  image
+  twitter: window.SHARE_TWITTER,
+  image: window.SHARE_IMAGE,
 });
 
 const links = {
@@ -28,7 +29,7 @@ const links = {
     url += '&href=' + p.url;
     return url;
   },
-  tw: p => `https://twitter.com/intent/tweet?text=${p.desc}&url=${p.url}&hashtags=&via=`,
+  tw: p => `https://twitter.com/intent/tweet?text=${p.desc}&url=${p.url}&via=${p.twitter}`,
   ok: p => `https://connect.ok.ru/offer?url=${p.url}&title=${p.title}&description=${p.desc}&imageUrl=${p.image}`
 };
 

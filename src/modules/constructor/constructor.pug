@@ -1,10 +1,13 @@
 .constructor-wrapper
   .constructor-header
+    include ../callback/callback
     include ../header/header
   .constructor-sidebar.constructor-left
     include ../picture/picture
   .constructor-content
     include ../canvas/canvas
+    include ../page/page
+    include ../form/form
   .constructor-sidebar.constructor-right
     include ../background/background
   .constructor-footer
@@ -233,3 +236,5 @@ script.
       }
     },
   ];
+
+  var SECTION_ENDPOINT = null;

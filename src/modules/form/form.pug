@@ -1,3 +1,5 @@
+include ../baron/baron
+
 .form-wrapper
   .form-popup
     .form-close
@@ -32,6 +34,11 @@
                 label
                   input(type="checkbox" name="checkbox-150[]" value="Покрытие защитным лаком")
                   span(class="wpcf7-list-item-label") Покрытие защитным лаком
+          .form-number
+            | Доп. обработка фото, кол-во:
+
+            span(class="wpcf7-form-control-wrap form-photos")
+              input(type="text" name="form-photos" value="1" size="40" class="wpcf7-form-control wpcf7-text")
         .form-col
           | zxc
       .form-row
@@ -42,10 +49,12 @@
             .form-input-wrapper: input.form-input(placeholder='Почта')
           .form-input-wrapper-textarea: textarea.form-input.form-textarea(placeholder='Сообщение')
           .form-files-wrapper
+            input.form-submit(type='submit' value='Отправить')
             .form-files
               span.form-span Прикрепить дополнительные файлы
               input(type='file' multiple)
         .form-col_1_4
-          div.form-yoba
-          input.form-submit(type='submit' value='Отправить')
+          //div.form-yoba
+          .form-preview_wrapper
+            img.form-preview(src='')
       .form-row

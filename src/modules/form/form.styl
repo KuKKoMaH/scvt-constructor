@@ -21,29 +21,42 @@
   &:active
     opacity: 1
 
+
+.wrapper
+  position: absolute
+  bottom: 0
+  width: 100%
+  max-width: 800px;
+  max-height: 100%
+  left: 50%
+  pointer-events: none
+  opacity: 0
+  transform: translate3d(-50%, $footer-height, 0)
+  transition: all .3s ease-out
+  z-index: 2
+  overflow: auto;
+  background: #E6FFFE
+  border: 1px solid #999999
+  border-radius: 6px 6px 0 0
+  padding: 18px 24px
+  font-size: 16px
+
+  &_active
+    pointer-events: all
+    opacity: 1
+    transform: translate3d(-50%, 0, 0)
+
+//.popup
+//  height: 100%
+  //position: relative
+
 .form
   display: block
 
   p
     text-align: center
     margin: 0 0 .75em
-
-.popup
-  display: none
-  position: absolute
-  bottom: 0
-  max-width: 880px
-  max-height: 100%
-  overflow: auto
-  width: 90%
-  left: 50%
-  transform: translateX(-50%)
-  background: #E6FFFE
-  border: 1px solid #999999
-  border-radius: 6px
-  padding: 14px 12px 0
-  z-index: 100
-  font-size: 16px
+    font-weight: 500
 
   :global
     .screen-reader-response
@@ -134,12 +147,32 @@
         width: 10px
         height: 10px
         border: 1px solid #000
-        //border-radius: 50%
+
+
+.number
+  position: relative
+
+  :global
+    .wpcf7-form-control-wrap
+      position: absolute
+      right: 0
+      top: 0
+    .wpcf7-text
+      width: 25px
+      border: 1px solid #7F7F7F
+      text-align: center
+      background-color: transparent
+      font: inherit
+      font-size: 15px
+      line-height: 20px
+      height: 20px
+      border-radius: 3px
+
 
 .close
   position: absolute
-  right: 8px
-  top: 8px
+  right: 10px
+  top: 10px
   background: url(modules/form/sprite-close.svg)
   cursor: pointer
   anim()
@@ -152,14 +185,17 @@
   margin-bottom: 12px
 
 .col
+  min-height: 1px
   float: left
   width: 50%
   padding: 0 5%
 
 .col_3_4
+  min-height: 1px
   float: left
   width: 75%
 .col_1_4
+  min-height: 1px
   float: left
   width: 25%
   text-align: center
@@ -175,7 +211,7 @@
       margin: 12px 0
 
   &-group
-    margin-top: 35px
+    //margin-top: 35px
     cf()
 
 .input
@@ -195,7 +231,7 @@
   resize: none
 
 .files
-  width: 100%
+  //width: 100%
   position: relative
   overflow: hidden
   span
@@ -227,6 +263,7 @@
     padding: 0 12px
 
 .submit
+  float: right
   border: 1px solid #fff
   background: #567F4E
   border-radius: 16px
@@ -251,4 +288,22 @@
 
 .yoba
   margin: 0 auto
-  background: url(modules/form/sprite-yoba.png)
+  background: url(modules/form/yoba.png) 50% 50% no-repeat
+  background-size: contain
+  height: 140px
+  max-width: 100%
+  margin-bottom: 20px
+
+  //background: url(modules/form/sprite-yoba.png)
+
+.preview
+  display: inline-block
+  max-width: 100%
+  vertical-align: middle
+  max-height: 140px
+
+  &_wrapper
+    height: 140px
+    line-height: 140px
+    text-align: center
+    background: #F2F2F2
